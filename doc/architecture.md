@@ -15,6 +15,8 @@ The overall goals of the Voxura architecture are to:
 _Voxura_ is either embedded within a host application, or is used as a cloud service. The host application feeds _Voxura_ with raw speech or text, and _Voxura_ returns JSON data containing the extracted data. The host application can then use this data to update its state, or to display it to the user.
 
 _Voxura_ embedded:
+
+![alt text](image.png)
     
 ```mermaid
 block-beta
@@ -83,3 +85,16 @@ _Voxura_ is designed to be a secure and privacy-respecting component. It will on
 
 ## Cloud vs Local
 _Voxura_ will be developed as a local component, but a wrapper will be developed to allow it to be used as a cloud service. Authorization and authentication will be the responsibility cloud wrapper, in coordination with the host application.
+
+# Platform Support
+Voxura will be developed using .Net Core. It is widely supported as a hosted platform acroll all major cloud providers, has extensive ecosystem and Microsoft is a FINOS member. 
+
+Choosing .Net Core allows the following scenarios:
+
+| Scenario                                | Voxura is Embedded | Voxura is used via cloud |
+|-----------------------------------------|--------------------|--------------------------|
+| .Net client (desktop) application       |         ✔️         |           ✔️            |
+| .Net server application                 |         ✔️         |           ✔️            |
+| Web client technologies                 |         ❌         |           ✔️            |
+| Web server technologies (e.g. NodeJS)   |         ✔️         |           ✔️            |
+| Various mobile applications             |         ❌         |           ✔️            |
