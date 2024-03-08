@@ -15,9 +15,7 @@ The overall goals of the Voxura architecture are to:
 _Voxura_ is either embedded within a host application, or is used as a cloud service. The host application feeds _Voxura_ with raw speech or text, and _Voxura_ returns JSON data containing the extracted data. The host application can then use this data to update its state, or to display it to the user.
 
 _Voxura_ embedded:
-
-![alt text](image.png)
-    
+   
 ```mermaid
 block-beta
 columns 1
