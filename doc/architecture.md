@@ -85,7 +85,7 @@ _Voxura_ is designed to be a secure and privacy-respecting component. It will on
 _Voxura_ will be developed as a local component, but a wrapper will be developed to allow it to be used as a cloud service. Authorization and authentication will be the responsibility cloud wrapper, in coordination with the host application.
 
 # Platform Support
-Voxura will be developed using .Net Core. It is widely supported as a hosted platform acroll all major cloud providers, has extensive ecosystem and Microsoft is a FINOS member. 
+Voxura will be developed using .Net Core. It is widely supported as a hosted platform across all major cloud providers, has extensive ecosystem and Microsoft is a FINOS member. 
 
 Choosing .Net Core allows the following scenarios:
 
