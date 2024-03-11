@@ -57,7 +57,9 @@ graph TD
 The individual components of the pipeline are swappable (except for the `NLP Processing` component). The `NLP Processing` component is the heart of the system, so it cannot be replaced for now - but it is highly configurable.
 
 ### Speech Input
-The speech input component is responsible for capturing the raw speech waveform from the user. This can be done using a variety of technologies, such as a microphone, a web browser's WebRTC API, or a pre-recorded audio file. 
+The speech input component is responsible for capturing the raw speech waveform (e.g .wav) from the user. This can be done using a variety of technologies, such as a microphone, a web browser's WebRTC API, or a pre-recorded audio file. 
+
+_Could we specify the human language accepted as a valid input?_
 
 ### Speech Recognition
 The speech recognition component is responsible for converting the raw speech waveform into text. This can be done using a variety of speech recognition engines, such as the ones built into web browsers, operating systems, cloud / remote services or local AI models, such as Whisper.
@@ -76,7 +78,7 @@ A key feature of _Voxura_ is the ability to process speech and text in real time
 
 Taking into account how speech recognition engines work, it is also possible to "go back in time" and refine previous pieces of text, which will result in the output updating fields that were previously extracted. 
 
-This continous updating of the output also allows the speaker to correct themselves.
+This continous updating of the output also allows the speaker to correct themselves at any time.
 
 ## Security and Privacy
 _Voxura_ is designed to be a secure and privacy-respecting component. It will only store the extracted data if instructed to do so by the host application, for debugging / testing purposes.
