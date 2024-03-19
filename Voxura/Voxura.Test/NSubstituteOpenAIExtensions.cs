@@ -82,7 +82,16 @@ namespace Voxura.Test
             return new StringContent(json);
         }
 
-        public static ConfiguredCall OpenAIChatResponse(this HttpMessageHandler handler, HttpStatusCode statusCode, string responseContent)
+        private static async Task<HttpResponseMessage> OpenAIServerError(HttpStatusCode errorCode, string errorContent)
+        {
+            return new HttpResponseMessage()
+            {
+                StatusCode = errorCode,
+                Content = new StringContent(errorContent)
+            };
+        }
+
+        public static ConfiguredCall SetupResponse(this HttpMessageHandler handler, HttpStatusCode statusCode, string responseContent)
         {
             return handler.SetupRequest(HttpMethod.Post, "/v1/chat/completions").ReturnsResponse(statusCode, responseContent);
         }
