@@ -31,6 +31,7 @@ namespace Voxura.Test
                 Task.FromResult(new HttpResponseMessage()
                 {
                     StatusCode = statusCode,
+                    RequestMessage = new HttpRequestMessage(),
                     Content = statusCode == HttpStatusCode.OK ? OpenAIResponse(responseContent) : OpenAIErrorResponse(responseContent)
                 })
             );
@@ -80,15 +81,6 @@ namespace Voxura.Test
             Console.WriteLine("OpenAIErrorResponse: " + json);
 
             return new StringContent(json);
-        }
-
-        private static async Task<HttpResponseMessage> OpenAIServerError(HttpStatusCode errorCode, string errorContent)
-        {
-            return new HttpResponseMessage()
-            {
-                StatusCode = errorCode,
-                Content = new StringContent(errorContent)
-            };
         }
 
         public static ConfiguredCall SetupResponse(this HttpMessageHandler handler, HttpStatusCode statusCode, string responseContent)
