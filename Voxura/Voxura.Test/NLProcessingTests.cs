@@ -163,7 +163,7 @@ namespace Voxura.Test
 
             mockedHandler?.SetupResponse(HttpStatusCode.OK, @"{""StartDate"":""2023-03-14T00:00:00"",""EndDate"":""2023-03-14T00:00:00""}");
 
-            string statelessInput = "Today is the PI day in 2023.";
+            List<string> statelessInput = [ "Today is the PI day in 2023." ];
             var result = await nlp.ProcessAsync(statelessInput);
             simplifyJson(result).ShouldBeOneOf(
                 [
@@ -175,26 +175,22 @@ namespace Voxura.Test
 
             mockedHandler?.SetupResponse(HttpStatusCode.OK, """{"StartDate":"2023-03-15T09:00:00","EndDate":"2023-03-15T10:29:59"}""");
 
-            statelessInput += " Tomorrow I would like to organize a meeting. It should be at 9:00 AM. I will have an appointment at 10:30 AM.";
+            statelessInput.Add("Tomorrow I would like to organize a meeting. It should be at 9:00 AM. I will have an appointment at 10:30 AM.");
             result = await nlp.ProcessAsync(statelessInput);
             simplifyJson(result).ShouldBeOneOf(
                 [
                     """{"StartDate":"2023-03-15T09:00:00","EndDate":"2023-03-15T10:29:59"}""",
-                    """{"StartDate":"2023-03-15T09:00:00","EndDate":"2023-03-15T10:30:00"}""",
-                    """{"StartDate":"2023-03-14T09:00:00","EndDate":"2023-03-14T10:29:59"}""", //FIXME chatgpt may misunderstand the date
-                    """{"StartDate":"2023-03-14T09:00:00","EndDate":"2023-03-14T10:30:00"}""" //FIXME chatgpt may misunderstand the date
+                    """{"StartDate":"2023-03-15T09:00:00","EndDate":"2023-03-15T10:30:00"}"""
                 ]
             );
 
             mockedHandler?.SetupResponse(HttpStatusCode.OK, """{"StartDate":"2023-03-15T09:00:00","EndDate":"2023-03-15T10:10:00"}""");
-            statelessInput += "I have to arrive to the other appointment at 10:30 AM, it takes approximately 20 mins at least to get there";
+            statelessInput.Add("I have to arrive to the other appointment at 10:30 AM, it takes approximately 20 mins at least to get there");
             result = await nlp.ProcessAsync(statelessInput);
             simplifyJson(result).ShouldBeOneOf(
                 [
                     """{"StartDate":"2023-03-15T09:00:00","EndDate":"2023-03-15T10:09:59"}""",
-                    """{"StartDate":"2023-03-15T09:00:00","EndDate":"2023-03-15T10:10:00"}""",
-                    """{"StartDate":"2023-03-14T09:00:00","EndDate":"2023-03-14T10:09:59"}""", //FIXME: chatgpt may misunderstand the date
-                    """{"StartDate":"2023-03-14T09:00:00","EndDate":"2023-03-14T10:10:00"}""" //FIXME: chatgpt may misunderstand the date
+                    """{"StartDate":"2023-03-15T09:00:00","EndDate":"2023-03-15T10:10:00"}"""
                 ]
             );
         }
