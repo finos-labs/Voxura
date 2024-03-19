@@ -19,7 +19,34 @@ namespace Voxura.Test
         [Test]
         public async Task TestWithOpenAIApi()
         {
-            await DoSimpleTest(true);
+            var config = new NLProcessingConfig
+            {
+                OpenAIKeyLoadFromEnvironment = true,
+                ExtractionPrompt = @"Below is a raw transcript of a user's verbal instructions to fill a form.
+                                     Convert it to a JSON object that conforms to the TypeScript interface below.
+                                     Ignore anything else. Answer only with the required object and nothing else !
+
+                                     interface RFQ {
+                                        StartDate: datetime;
+                                        EndDate: datetime;
+                                     }
+                                     ",
+                EnableDebug = false
+            };
+            
+            Func<string, string> simplifyJson = json => Regex.Replace(json, "\\s+", "");
+
+            HttpMessageHandler? mockedHandler = null;
+            NLProcessing nlp = new(config);
+            
+            var result = await nlp.ProcessAsync("Today is the PI day in 2023.");
+            simplifyJson(result).ShouldBeOneOf(
+                [
+                    """{"StartDate":"2023-03-14","EndDate":"2023-03-14"}""",
+                    """{"StartDate":"2023-03-14T00:00:00","EndDate":"2023-03-14T23:59:59"}""",
+                    """{"StartDate":"2023-03-14T00:00:00","EndDate":"2023-03-14T00:00:00"}"""
+                ]
+            );
         }
 
         [Test]
@@ -132,67 +159,7 @@ namespace Voxura.Test
 
         private async Task DoSimpleTest(bool useRealApi)
         {
-            var config = new NLProcessingConfig
-            {
-                OpenAIKeyLoadFromEnvironment = true,
-                ExtractionPrompt = @"Below is a raw transcript of a user's verbal instructions to fill a form.
-                                     Convert it to a JSON object that conforms to the TypeScript interface below.
-                                     Ignore anything else. Answer only with the required object and nothing else !
 
-                                     interface RFQ {
-                                        StartDate: datetime;
-                                        EndDate: datetime;
-                                     }
-                                     ",
-                EnableDebug = false
-            };
-            Func<string, string> simplifyJson = json => Regex.Replace(json, "\\s+", "");
-
-            HttpMessageHandler? mockedHandler = null;
-            NLProcessing nlp;
-
-            if (useRealApi)
-            {
-                nlp = new(config);
-            }
-            else
-            {
-                mockedHandler = Substitute.For<HttpMessageHandler>();
-                nlp = new(config, new(OpenAIAuthentication.LoadFromEnv(), null, new HttpClient(mockedHandler)));
-            }
-
-            mockedHandler?.SetupResponse(HttpStatusCode.OK, @"{""StartDate"":""2023-03-14T00:00:00"",""EndDate"":""2023-03-14T00:00:00""}");
-
-            List<string> statelessInput = [ "Today is the PI day in 2023." ];
-            var result = await nlp.ProcessAsync(statelessInput);
-            simplifyJson(result).ShouldBeOneOf(
-                [
-                    """{"StartDate":"2023-03-14","EndDate":"2023-03-14"}""",
-                    """{"StartDate":"2023-03-14T00:00:00","EndDate":"2023-03-14T23:59:59"}""",
-                    """{"StartDate":"2023-03-14T00:00:00","EndDate":"2023-03-14T00:00:00"}"""
-                ]
-            );
-
-            mockedHandler?.SetupResponse(HttpStatusCode.OK, """{"StartDate":"2023-03-15T09:00:00","EndDate":"2023-03-15T10:29:59"}""");
-
-            statelessInput.Add("Tomorrow I would like to organize a meeting. It should be at 9:00 AM. I will have an appointment at 10:30 AM.");
-            result = await nlp.ProcessAsync(statelessInput);
-            simplifyJson(result).ShouldBeOneOf(
-                [
-                    """{"StartDate":"2023-03-15T09:00:00","EndDate":"2023-03-15T10:29:59"}""",
-                    """{"StartDate":"2023-03-15T09:00:00","EndDate":"2023-03-15T10:30:00"}"""
-                ]
-            );
-
-            mockedHandler?.SetupResponse(HttpStatusCode.OK, """{"StartDate":"2023-03-15T09:00:00","EndDate":"2023-03-15T10:10:00"}""");
-            statelessInput.Add("I have to arrive to the other appointment at 10:30 AM, it takes approximately 20 mins at least to get there");
-            result = await nlp.ProcessAsync(statelessInput);
-            simplifyJson(result).ShouldBeOneOf(
-                [
-                    """{"StartDate":"2023-03-15T09:00:00","EndDate":"2023-03-15T10:09:59"}""",
-                    """{"StartDate":"2023-03-15T09:00:00","EndDate":"2023-03-15T10:10:00"}"""
-                ]
-            );
         }
 
         [Explicit("Consumes credits")]

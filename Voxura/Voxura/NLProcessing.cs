@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using OpenAI;
+﻿using OpenAI;
 using OpenAI.Chat;
 
 namespace Voxura.Core;
@@ -28,25 +27,12 @@ public class NLProcessing
     /// </summary>
     /// <returns>JSON result</returns>
     public async Task<string> ProcessAsync(string input) {
-        return await ProcessAsync([ input ]);
-    }
-
-    /// <summary>
-    /// ProcessAsync receives a natural language input and it's history and processes it to extract a JSON result.
-    /// Returns on the same thread as the caller.
-    /// </summary>
-    /// <returns>JSON result</returns>
-    public async Task<string> ProcessAsync(List<string> input)
-    {
         // TODO: better error handling on errors:
 
         List<Message> chatHistory = new(); // this is not a real chat, we need a new history for every request
 
         chatHistory.Add(new Message(Role.System, _config.ExtractionPrompt));
-        foreach (var text in input)
-        {
-            chatHistory.Add(new Message(Role.User, text));
-        }
+        chatHistory.Add(new Message(Role.User, input));
 
         var chatRequest = new ChatRequest(chatHistory, _config.ModelName, responseFormat: ChatResponseFormat.Json);
         var response = await AIClient.ChatEndpoint.GetCompletionAsync(chatRequest);
