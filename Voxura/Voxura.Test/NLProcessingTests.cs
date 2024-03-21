@@ -33,12 +33,12 @@ namespace Voxura.Test
                                      ",
                 EnableDebug = false
             };
-            
+
             Func<string, string> simplifyJson = json => Regex.Replace(json, "\\s+", "");
 
             HttpMessageHandler? mockedHandler = null;
             NLProcessing nlp = new(config);
-            
+
             var result = await nlp.ProcessAsync("Today is the PI day in 2023.");
             simplifyJson(result).ShouldBeOneOf(
                 [
