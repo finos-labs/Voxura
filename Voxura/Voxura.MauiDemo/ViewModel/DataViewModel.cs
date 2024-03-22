@@ -265,7 +265,6 @@ class DataViewModel : INotifyPropertyChanged
         }
 
         InterimTranscript = currentText;
-        Debug = currentText;
 
         _currentProcess = _nlp.ProcessAsync(currentText);
         _currentProcess.ContinueWith(task =>
