@@ -12,7 +12,7 @@ public partial class MainPage : ContentPage
     {
         InitializeComponent();
 
-        BindingContext = new DataViewModel();
+        BindingContext = new DataViewModel(new ApplicationConfig());
     }
 
     private void OnDebugModeToggled(object sender, ToggledEventArgs e)

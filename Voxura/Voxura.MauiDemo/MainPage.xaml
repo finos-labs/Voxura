@@ -169,6 +169,7 @@
                     x:Name="Notes"
                     Placeholder="Any other information not captured by the above fields."
                     HeightRequest="150"
+                    WidthRequest="200"
                     Text="{ Binding Notes }"
                 />
             </StackLayout>

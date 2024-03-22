@@ -168,41 +168,13 @@ class DataViewModel : INotifyPropertyChanged
 
     }
 
-    public DataViewModel()
+    public DataViewModel(ApplicationConfig appConfig)
     {
         var config = new NLProcessingConfig
         {
-            ApiKey = "API_KEY",
-            ExtractionPrompt = @"Below is a raw transcript of a user's verbal instructions to fill a form.
-                                 Convert it to a JSON object that conforms to the TypeScript interface below.
-                                 Ignore anything else. Answer only with the required object and nothing else !
-
-                                interface Contact {
-                                    Id?: {
-                                        Email?: string as Email;
-                                    };
-                                    Name?: string;
-                                }
-
-                                interface Organization {
-                                    Id?: {
-                                        PERMID?: string;
-                                    };
-                                    Name?: string;
-                                }
-
-                                interface RFQ {
-                                    Requestor?: Contact | Organization;
-                                    Direction?: 'Buy' | 'Sell';
-                                    Notional?: number as Int;
-                                    StartDate?: date; // be strict with locale format or null
-                                    EndDate?: date; // be strict with locale format or null
-                                    RollConvention?: 'Following' | 'Modified Following' | 'Preceding';
-                                    Trade?: {
-                                        Product: string;  // The product or currency the user wants to buy or sell
-                                    };
-                                    Notes?: string;  // Any other information not captured by the above fields
-                                }",
+            ApiKey = appConfig.ApiKey,
+            OpenAIKeyLoadFromEnvironment = appConfig.OpenAIKeyLoadFromEnvironment,
+            ExtractionPrompt = appConfig.ExtractionPrompt + "\n" + appConfig.ExpectedOutput,
         };
 
         _nlp = new NLProcessing(config);
