@@ -221,6 +221,9 @@ class DataViewModel : INotifyPropertyChanged
         }
     }
 
+    private string _savedInterimText = "";
+    private string? _savedRfq = null;
+
     private void ProcessTranscriptIfChanged()
     {
         bool isProcessing = _currentProcess != null && !_currentProcess.IsCompleted;
@@ -233,15 +236,23 @@ class DataViewModel : INotifyPropertyChanged
         string currentText = _transcript ?? string.Empty;
         if (_interimTranscript?.Trim() == currentText.Trim() || currentText.Length < 10)
         {
+            // now we can save the current state
+            _savedInterimText = currentText;
+            _savedRfq = JsonSerializer.Serialize(_rfq);
             return;
         }
 
         InterimTranscript = currentText;
+        if (_savedRfq != null)
+        {
+            currentText = "I have the following state, please update it with the text bellow: \n" + _savedRfq + "\n"
+                + currentText.Substring(_savedInterimText.Length);
+        }
 
         _currentProcess = _nlp.ProcessAsync(currentText);
         _currentProcess.ContinueWith(task =>
         {
-            _debug = task.Result;
+            _debug = currentText +  " -> " + task.Result;
             try
             {
                 RFQ? myForm = JsonSerializer.Deserialize<RFQ>(task.Result);
