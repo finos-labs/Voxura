@@ -172,7 +172,7 @@ class DataViewModel : INotifyPropertyChanged
     {
         var config = new NLProcessingConfig
         {
-            ApiKey = "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",
+            ApiKey = "API_KEY",
             ExtractionPrompt = @"Below is a raw transcript of a user's verbal instructions to fill a form.
                                  Convert it to a JSON object that conforms to the TypeScript interface below.
                                  Ignore anything else. Answer only with the required object and nothing else !
@@ -281,7 +281,7 @@ class DataViewModel : INotifyPropertyChanged
                     Direction = myForm.Direction.ToString();
                     Notional = myForm.Notional;
                     RollConvention = myForm.RollConvention.ToString();
-                    Product = myForm.Trade.Product;
+                    Product = myForm.Trade?.Product;
                     StartDate = myForm.StartDate;
                     EndDate = myForm.EndDate;
                     Notes = myForm.Notes;
