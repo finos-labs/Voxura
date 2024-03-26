@@ -4,7 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:viewModel="clr-namespace:Voxura.MauiDemo.ViewModel"
-    x:DataType="viewModel:DataViewModel">
+    x:DataType="viewModel:MainViewModel">
 
     <ScrollView>
         <StackLayout Padding="30,0" Spacing="25">
@@ -55,7 +55,7 @@
                 />
                 <Entry
                     x:Name="Email"
-                    Text="{ Binding Email }"
+                    Text="{ Binding RFQModel.Email }"
                     Placeholder="Enter your email"
                 />
             </StackLayout>
@@ -68,7 +68,7 @@
                 />
                 <Entry
                     x:Name="Name"
-                    Text = "{ Binding Name }"
+                    Text = "{ Binding RFQModel.Name }"
                     Placeholder="Enter your name"
                 />
             </StackLayout>
@@ -82,7 +82,7 @@
                 <Picker
                     x:Name="Direction"
                     Title="Direction"
-                    SelectedItem="{ Binding Direction, Mode=TwoWay }"
+                    SelectedItem="{ Binding RFQModel.Direction, Mode=TwoWay }"
                 >
                     <Picker.ItemsSource>
                         <x:Array Type="{ x:Type x:String }">
@@ -101,13 +101,13 @@
                 />
                 <Entry
                     x:Name="Notional"
-                    Text = "{ Binding Notional }"
+                    Text = "{ Binding RFQModel.Notional }"
                     Keyboard="Numeric"
                     Placeholder="0"
                 />
                 <Entry
                     x:Name="Product"
-                    Text = "{ Binding Product }"
+                    Text = "{ Binding RFQModel.Product }"
                     Placeholder="Enter your product"
                 />
             </StackLayout>
@@ -120,7 +120,7 @@
                 />
                 <Entry
                     x:Name="StartDate"
-                    Text = "{ Binding StartDate }"
+                    Text = "{ Binding RFQModel.StartDate }"
                     Placeholder="YYYY/MM/DD"
                 />
             </StackLayout>
@@ -133,7 +133,7 @@
                 />
                 <Entry
                     x:Name="EndDate"
-                    Text = "{ Binding EndDate }"
+                    Text = "{ Binding RFQModel.EndDate }"
                     Placeholder="YYYY/MM/DD"
                 />
             </StackLayout>
@@ -146,7 +146,7 @@
                 />
                 <Picker
                     x:Name="RollConvention"
-                    SelectedItem="{ Binding RollConvention, Mode=TwoWay }"
+                    SelectedItem="{ Binding RFQModel.RollConvention, Mode=TwoWay }"
                     Title="Roll Convention"
                 >
                     <Picker.ItemsSource>
@@ -170,7 +170,7 @@
                     Placeholder="Any other information not captured by the above fields."
                     HeightRequest="150"
                     WidthRequest="200"
-                    Text="{ Binding Notes }"
+                    Text="{ Binding RFQModel.Notes }"
                 />
             </StackLayout>
         </StackLayout>
