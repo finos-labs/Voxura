@@ -77,6 +77,11 @@ namespace Voxura.Test
 
             mockedHandler.ReceivedCalls().Count().ShouldBe(1);
             var call = mockedHandler.ReceivedCalls().First();
+            
+            call.GetMethodInfo().Name.ShouldBe("SendAsync");
+            var httpReqMsg = call.GetOriginalArguments()[0] as HttpRequestMessage;
+            httpReqMsg.ShouldNotBeNull();
+            
 
             //TODO test call arguments (Do we need low level test?)
             // - method
