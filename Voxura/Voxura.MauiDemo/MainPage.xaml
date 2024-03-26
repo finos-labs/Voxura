@@ -47,7 +47,7 @@
                 FontAttributes="Italic, Bold"
             />
 
-            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25">
+            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25" BackgroundColor="{ Binding RFQModel.EmailHighlighted }">
                 <Label
                     Text="Email"
                     Style="{ StaticResource SubHeadline }"
@@ -57,10 +57,11 @@
                     x:Name="Email"
                     Text="{ Binding RFQModel.Email }"
                     Placeholder="Enter your email"
+
                 />
             </StackLayout>
 
-            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25">
+            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25"  BackgroundColor="{ Binding RFQModel.NameHighlighted }">
                 <Label
                     Text="Name"
                     Style="{ StaticResource SubHeadline }"
@@ -73,7 +74,7 @@
                 />
             </StackLayout>
 
-            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25">
+            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25" BackgroundColor="{ Binding RFQModel.DirectionHighlighted }">
                 <Label
                     Text="Direction"
                     Style="{ StaticResource SubHeadline }"
@@ -93,7 +94,7 @@
                 </Picker>
             </StackLayout>
 
-            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25">
+            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25"  BackgroundColor="{ Binding RFQModel.NotionalHighlighted }">
                 <Label
                     Text="Trade"
                     Style="{ StaticResource SubHeadline }"
@@ -112,7 +113,7 @@
                 />
             </StackLayout>
 
-            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25">
+            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25" BackgroundColor="{ Binding RFQModel.StartDateHighlighted }">
                 <Label
                     Text="Start Date"
                     Style="{ StaticResource SubHeadline }"
@@ -125,7 +126,7 @@
                 />
             </StackLayout>
 
-            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25">
+            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25" BackgroundColor="{ Binding RFQModel.EndDateHighlighted }">
                 <Label
                     Text="End Date"
                     Style="{ StaticResource SubHeadline }"
@@ -138,7 +139,7 @@
                 />
             </StackLayout>
 
-            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25">
+            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25" BackgroundColor="{ Binding RFQModel.RollConventionHighlighted }">
                 <Label
                     Text="Roll Convention"
                     Style="{ StaticResource SubHeadline }"
@@ -159,7 +160,7 @@
                 </Picker>
             </StackLayout>
 
-            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25">
+            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25" BackgroundColor="{ Binding RFQModel.NotesHighlighted }">
                 <Label
                     Text="Notes"
                     Style="{ StaticResource SubHeadline }"

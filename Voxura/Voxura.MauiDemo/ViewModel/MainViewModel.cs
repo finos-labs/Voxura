@@ -15,7 +15,7 @@ class MainViewModel :  BaseViewModel
     public RFQModel RFQModel
     {
         get => _rfqModel;
-        set => UpdateProperty(ref _rfqModel, value, nameof(RFQModel));
+        set => UpdateProperty(ref _rfqModel, value);
     }
 
     private string? _transcript;

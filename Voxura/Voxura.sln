@@ -3,20 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voxura.Core", "Voxura\Voxura.Core.csproj", "{632E4017-A002-4A18-B1D5-32D942B5EFDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voxura.Core", "Voxura\Voxura.Core.csproj", "{632E4017-A002-4A18-B1D5-32D942B5EFDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voxura.Test", "Voxura.Test\Voxura.Test.csproj", "{0D800EEE-4883-49D1-BF0D-5E018981F0F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voxura.Test", "Voxura.Test\Voxura.Test.csproj", "{0D800EEE-4883-49D1-BF0D-5E018981F0F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voxura.WebAPI", "Voxura.WebAPI\Voxura.WebAPI.csproj", "{D083C3D9-9208-4AEC-9A83-F7473AECA884}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voxura.WebAPI", "Voxura.WebAPI\Voxura.WebAPI.csproj", "{D083C3D9-9208-4AEC-9A83-F7473AECA884}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voxura.WpfDemo", "Voxura.WpfDemo\Voxura.WpfDemo.csproj", "{3E38C053-7536-499F-B1E3-FC104109E08C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voxura.WpfDemo", "Voxura.WpfDemo\Voxura.WpfDemo.csproj", "{3E38C053-7536-499F-B1E3-FC104109E08C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3E5C9441-0812-490D-8F93-A2E0293273C1}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voxura.MauiDemo", "Voxura.MauiDemo\Voxura.MauiDemo.csproj", "{CAF1D9DA-8A4C-466C-8EC8-820A3AEF544B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voxura.MauiDemo", "Voxura.MauiDemo\Voxura.MauiDemo.csproj", "{CAF1D9DA-8A4C-466C-8EC8-820A3AEF544B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +42,7 @@ Global
 		{3E38C053-7536-499F-B1E3-FC104109E08C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CAF1D9DA-8A4C-466C-8EC8-820A3AEF544B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CAF1D9DA-8A4C-466C-8EC8-820A3AEF544B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAF1D9DA-8A4C-466C-8EC8-820A3AEF544B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{CAF1D9DA-8A4C-466C-8EC8-820A3AEF544B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAF1D9DA-8A4C-466C-8EC8-820A3AEF544B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
