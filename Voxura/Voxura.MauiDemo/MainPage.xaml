@@ -12,8 +12,17 @@
                 x:Name="Transcript"
                 Placeholder="Enter your command here"
                 HeightRequest="100"
-                Text="{ Binding Transcript }"
+                Text="{ Binding Transcript, Mode=TwoWay }"
             />
+            <Button
+                x:Name="Listen"
+                Text="{ Binding ListeningButtonText }"
+                Clicked="OnListenClicked"
+                BackgroundColor="Blue"
+                TextColor="White"
+                FontSize="Large"
+                FontAttributes="Bold"
+                CornerRadius="10" />
             <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25">
                 <Label
                     x:Name="Status"
