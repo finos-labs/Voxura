@@ -58,6 +58,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+        <PackageReference Include="CommunityToolkit.Maui.Core" Version="7.0.1" />
         <ProjectReference Include="..\Voxura\Voxura.Core.csproj" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
