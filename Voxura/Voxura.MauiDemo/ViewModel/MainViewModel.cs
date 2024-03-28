@@ -1,14 +1,18 @@
 using System.Text.Json;
 using Voxura.Core;
 using Voxura.MauiDemo.Model;
+using CommunityToolkit.Maui.Media;
+using System.Globalization;
 
 namespace Voxura.MauiDemo.ViewModel;
 
-class MainViewModel :  BaseViewModel
+class MainViewModel : BaseViewModel
 {
     NLProcessing _nlp;
 
     Task<string>? _currentProcess;
+
+    private readonly ISpeechToText _speechToText;
 
     private RFQModel _rfqModel = new();
 
@@ -32,6 +36,14 @@ class MainViewModel :  BaseViewModel
         set => UpdateProperty(ref _debug, value, nameof(Debug));
     }
 
+
+    private string _listeningButtonText = "Listen";
+    public string ListeningButtonText
+    {
+        get => _listeningButtonText;
+        set => UpdateProperty(ref _listeningButtonText, value, nameof(ListeningButtonText));
+    }
+
     private string _status = "";
     public string Status
     {
@@ -49,8 +61,9 @@ class MainViewModel :  BaseViewModel
     private string _savedInterimText = "";
     private string? _savedRfq = null;
 
-    public MainViewModel(ApplicationConfig appConfig)
+    public MainViewModel(ApplicationConfig appConfig, ISpeechToText speechToText)
     {
+        _speechToText = speechToText;
         var config = new NLProcessingConfig
         {
             ApiKey = appConfig.ApiKey,
@@ -60,7 +73,6 @@ class MainViewModel :  BaseViewModel
 
         _nlp = new NLProcessing(config);
     }
-
 
     private void UpdateTranscript(string? value)
     {
@@ -104,7 +116,7 @@ class MainViewModel :  BaseViewModel
                 {
                     RFQModel.RFQ = myForm;
                 }
-                Debug = currentText +  " -> " + task.Result;
+                Debug = currentText + " -> " + task.Result;
             }
             catch (Exception ex)
             {
@@ -113,5 +125,51 @@ class MainViewModel :  BaseViewModel
 
             Task.Delay(500).ContinueWith(_ => ProcessTranscriptIfChanged(), TaskScheduler.FromCurrentSynchronizationContext());
         }, TaskScheduler.FromCurrentSynchronizationContext());
+    }
+
+    public async Task ToggleListening(CancellationToken cancellationToken)
+    {
+        if (_speechToText.CurrentState == SpeechToTextState.Listening)
+        {
+            await StopListening(cancellationToken);
+        }
+        else
+        {
+            await StartListening(cancellationToken);
+        }
+    }
+
+    private async Task StartListening(CancellationToken cancellationToken)
+    {
+        var isGranted = await _speechToText.RequestPermissions(cancellationToken);
+        if (!isGranted)
+        {
+            Debug = "Permission was not granted";
+            return;
+        }
+
+        _speechToText.RecognitionResultUpdated += OnRecognitionTextUpdated;
+        _speechToText.RecognitionResultCompleted += OnRecognitionTextCompleted;
+        await SpeechToText.StartListenAsync(CultureInfo.CurrentCulture, CancellationToken.None);
+        ListeningButtonText = "Stop listening";
+    }
+
+    private async Task StopListening(CancellationToken cancellationToken)
+    {
+        await SpeechToText.StopListenAsync(CancellationToken.None);
+        SpeechToText.Default.RecognitionResultUpdated -= OnRecognitionTextUpdated;
+        SpeechToText.Default.RecognitionResultCompleted -= OnRecognitionTextCompleted;
+        ListeningButtonText = "Listen";
+    }
+
+    void OnRecognitionTextUpdated(object? sender, SpeechToTextRecognitionResultUpdatedEventArgs args)
+    {
+        UpdateTranscript(_transcript + args.RecognitionResult);
+
+    }
+
+    void OnRecognitionTextCompleted(object? sender, SpeechToTextRecognitionResultCompletedEventArgs args)
+    {
+        UpdateTranscript(args.RecognitionResult);
     }
 }
