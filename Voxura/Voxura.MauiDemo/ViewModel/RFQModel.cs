@@ -1,4 +1,5 @@
 using Voxura.MauiDemo.Model;
+using Contact = Voxura.MauiDemo.Model.Contact;
 
 namespace Voxura.MauiDemo.ViewModel;
 
@@ -34,7 +35,7 @@ class RFQModel : BaseViewModel
         {
             if (_rfq.Requestor?.Id?.Email != value)
             {
-                PrepareRequestorIfNeeded();
+                EnsureRequestor();
                 _rfq.Requestor.Id.Email = value;
                 OnPropertyChanged();
             }
@@ -48,7 +49,7 @@ class RFQModel : BaseViewModel
         {
             if (_rfq.Requestor?.Name != value)
             {
-                PrepareRequestorIfNeeded();
+                EnsureRequestor();
                 _rfq.Requestor.Name = value;
                 OnPropertyChanged();
             }
@@ -91,7 +92,7 @@ class RFQModel : BaseViewModel
         {
             if (_rfq.Trade?.Product != value)
             {
-                PrepareTradeIfNeeded();
+                EnsureTrade();
                 _rfq.Trade.Product = value;
                 OnPropertyChanged();
             }
@@ -151,24 +152,15 @@ class RFQModel : BaseViewModel
 
     }
 
-    private void PrepareTradeIfNeeded()
+    private void EnsureTrade()
     {
-        if (_rfq.Trade == null)
-        {
-            _rfq.Trade = new();
-        }
+        _rfq.Trade ??= new();
     }
 
-    private void PrepareRequestorIfNeeded()
+    private void EnsureRequestor()
     {
-        if (_rfq.Requestor == null)
-        {
-            _rfq.Requestor = new();
-        }
+        _rfq.Requestor ??= new Contact();
 
-        if (_rfq.Requestor.Id == null)
-        {
-            _rfq.Requestor.Id = new();
-        }
+        _rfq.Requestor.Id ??= new Identification();
     }
 }
