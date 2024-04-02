@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Threading;
 
 using CommunityToolkit.Maui.Media;
+using Voxura.MauiDemo.Platforms.SpeechToText;
 
 namespace Voxura.MauiDemo;
 
@@ -14,7 +15,7 @@ public partial class MainPage : ContentPage
     public MainPage()
     {
         InitializeComponent();
-        BindingContext = new MainViewModel(new ApplicationConfig(), SpeechToText.Default);
+        BindingContext = new MainViewModel(new ApplicationConfig(),  new Voxura.MauiDemo.Platforms.SpeechToText.SpeechToTextImplementation());
     }
 
     private void OnDebugModeToggled(object sender, ToggledEventArgs e)
