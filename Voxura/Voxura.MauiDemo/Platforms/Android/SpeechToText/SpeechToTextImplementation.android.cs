@@ -87,25 +87,32 @@ public sealed partial class SpeechToTextImplementation
             throw new FeatureNotSupportedException("Speech Recognition is not available on this device");
         }
 
-        speechRecognizer = SpeechRecognizer.CreateSpeechRecognizer(Application.Context);
-        if (speechRecognizer is null)
-        {
-            throw new FeatureNotSupportedException("Speech recognizer is not available on this device");
-        }
-
-        listener = new SpeechRecognitionListener
+        listener ??= new SpeechRecognitionListener
         {
             Error = HandleListenerError,
             PartialResults = HandleListenerPartialResults,
             Results = HandleListenerResults
         };
-        speechRecognizer.SetRecognitionListener(listener);
-        speechRecognizer.StartListening(CreateSpeechIntent(cultureInfo));
-        CurrentState = SpeechToTextState.Listening;
 
+        StartOver();
         cancellationToken.ThrowIfCancellationRequested();
 
         return Task.CompletedTask;
+    }
+
+    [MemberNotNull(nameof(speechRecognizer))]
+    internal void StartOver()
+    {
+        speechRecognizer?.Dispose();
+        speechRecognizer = SpeechRecognizer.CreateSpeechRecognizer(Android.App.Application.Context);
+        if (speechRecognizer is null)
+        {
+            throw new FeatureNotSupportedException("Speech recognizer is not available on this device");
+        }
+
+        speechRecognizer.SetRecognitionListener(listener);
+        speechRecognizer.StartListening(CreateSpeechIntent(cultureInfo));
+        CurrentState = SpeechToTextState.Listening;
     }
 
     Task InternalStopListeningAsync(CancellationToken cancellationToken)
@@ -127,6 +134,7 @@ public sealed partial class SpeechToTextImplementation
     void HandleListenerError(SpeechRecognizerError error)
     {
         speechRecognitionListenerTaskCompletionSource?.TrySetException(new Exception($"Failure in speech engine - {error}"));
+        StartOver();
     }
 
     void HandleListenerPartialResults(string sentence)
@@ -139,6 +147,7 @@ public sealed partial class SpeechToTextImplementation
     {
         OnRecognitionResultCompleted(result);
         speechRecognitionListenerTaskCompletionSource?.TrySetResult(result);
+        StartOver();
     }
 
     void StopRecording()
@@ -186,18 +195,23 @@ public sealed partial class SpeechToTextImplementation
 
         public void OnResults(Bundle? results)
         {
-            SendResults(results, Results);
+            SendResults(results, Results, true);
         }
 
         public void OnRmsChanged(float rmsdB)
         {
         }
 
-        static void SendResults(Bundle? bundle, Action<string> action)
+        static void SendResults(Bundle? bundle, Action<string> action, bool? isAllowedToSendEmpty = false)
         {
             var matches = bundle?.GetStringArrayList(SpeechRecognizer.ResultsRecognition);
             if (matches?.Any() is not true)
             {
+                if (isAllowedToSendEmpty == true)
+                {
+                    action.Invoke(string.Empty);
+                }
+
                 return;
             }
 
