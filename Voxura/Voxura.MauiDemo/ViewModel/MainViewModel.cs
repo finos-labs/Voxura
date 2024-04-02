@@ -22,6 +22,7 @@ class MainViewModel : BaseViewModel
         set => UpdateProperty(ref _rfqModel, value);
     }
 
+    private string _previousTranscript = "";
     private string? _transcript;
     public string? Transcript
     {
@@ -128,38 +129,42 @@ class MainViewModel : BaseViewModel
         }
     }
 
-    private async Task StartListening(CancellationToken cancellationToken)
+    private async Task StartListening(CancellationToken cancellationToken, string? buttonText = null)
     {
+        _previousTranscript = _transcript;
         var isGranted = await _speechToText.RequestPermissions(cancellationToken);
         if (!isGranted)
         {
-            Debug = "Permission was not granted";
+            Debug = "Permission not granted";
             return;
         }
 
         _speechToText.RecognitionResultUpdated += OnRecognitionTextUpdated;
         _speechToText.RecognitionResultCompleted += OnRecognitionTextCompleted;
-        await SpeechToText.StartListenAsync(CultureInfo.CurrentCulture, CancellationToken.None);
-        ListeningButtonText = "Stop listening";
+        await _speechToText.StartListenAsync(CultureInfo.CurrentCulture, cancellationToken);
+        ListeningButtonText = buttonText ?? "Stop listening";
     }
 
     private async Task StopListening(CancellationToken cancellationToken)
     {
-        await SpeechToText.StopListenAsync(CancellationToken.None);
-        SpeechToText.Default.RecognitionResultUpdated -= OnRecognitionTextUpdated;
-        SpeechToText.Default.RecognitionResultCompleted -= OnRecognitionTextCompleted;
+        await _speechToText.StopListenAsync(CancellationToken.None);
+        _speechToText.RecognitionResultUpdated -= OnRecognitionTextUpdated;
+        _speechToText.RecognitionResultCompleted -= OnRecognitionTextCompleted;
         ListeningButtonText = "Listen";
     }
 
     void OnRecognitionTextUpdated(object? sender, SpeechToTextRecognitionResultUpdatedEventArgs args)
     {
-        UpdateTranscript(_transcript + args.RecognitionResult);
+        UpdateTranscript(_previousTranscript + " " + args.RecognitionResult);
         OnPropertyChanged(nameof(Transcript));
     }
 
     void OnRecognitionTextCompleted(object? sender, SpeechToTextRecognitionResultCompletedEventArgs args)
     {
-        UpdateTranscript(args.RecognitionResult);
+
+        UpdateTranscript(_previousTranscript + " " + args.RecognitionResult);
         OnPropertyChanged(nameof(Transcript));
+
+        _previousTranscript = _transcript + " ";
     }
 }
