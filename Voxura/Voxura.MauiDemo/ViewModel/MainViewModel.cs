@@ -147,7 +147,7 @@ class MainViewModel : BaseViewModel
 
     private async Task StopListening(CancellationToken cancellationToken)
     {
-        await _speechToText.StopListenAsync(CancellationToken.None);
+        await _speechToText.StopListenAsync(cancellationToken);
         _speechToText.RecognitionResultUpdated -= OnRecognitionTextUpdated;
         _speechToText.RecognitionResultCompleted -= OnRecognitionTextCompleted;
         ListeningButtonText = "Listen";
