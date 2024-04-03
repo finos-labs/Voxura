@@ -14,8 +14,13 @@ public partial class MainPage : ContentPage
     CancellationTokenSource _cancellationTokenSource = new();
     public MainPage()
     {
+#if ANDROID
+        var speechToText = new Voxura.MauiDemo.Platforms.SpeechToText.SpeechToTextImplementation();
+#else
+        var speechToText = SpeechToText.Default;
+#endif
         InitializeComponent();
-        BindingContext = new MainViewModel(new ApplicationConfig(),  new Voxura.MauiDemo.Platforms.SpeechToText.SpeechToTextImplementation());
+        BindingContext = new MainViewModel(new ApplicationConfig(),  speechToText);
     }
 
     private void OnDebugModeToggled(object sender, ToggledEventArgs e)
