@@ -65,4 +65,8 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 	</ItemGroup>
 
+    <ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-android')) != true">
+        <Compile Remove="Platforms/Android/**" />
+        <None Include="Platforms/Android/**" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+    </ItemGroup>
 </Project>

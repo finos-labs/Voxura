@@ -5,7 +5,6 @@ using System.Text.Json;
 using System.Threading;
 
 using CommunityToolkit.Maui.Media;
-using Voxura.MauiDemo.Platforms.SpeechToText;
 
 namespace Voxura.MauiDemo;
 
