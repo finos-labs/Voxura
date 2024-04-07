@@ -5,6 +5,9 @@ namespace Voxura.MauiDemo.ViewModel;
 
 class RFQModel : BaseViewModel
 {
+    static private string _defaultBackground = "Transparent";
+    static private string _defaultBackgroundHighlight = "#FF9900";
+
     private RFQ _rfq = new();
     public RFQ RFQ
     {
@@ -27,7 +30,7 @@ class RFQModel : BaseViewModel
         }
     }
 
-    private string _emailHighlighted = "White";
+    private string _emailHighlighted = _defaultBackground;
     public string EmailHighlighted { get => _emailHighlighted; private set => _emailHighlighted = value; }
 
     public string? Email
@@ -37,10 +40,10 @@ class RFQModel : BaseViewModel
         {
             if (_rfq.Requestor?.Id?.Email != value)
             {
-                UpdateProperty(ref _emailHighlighted, "Yellow", nameof(EmailHighlighted));
+                UpdateProperty(ref _emailHighlighted, _defaultBackgroundHighlight, nameof(EmailHighlighted));
                 Task.Delay(TimeSpan.FromSeconds(3)).ContinueWith(_ =>
                 {
-                    UpdateProperty(ref _emailHighlighted, "White", nameof(EmailHighlighted));
+                    UpdateProperty(ref _emailHighlighted, _defaultBackground, nameof(EmailHighlighted));
                 });
 
                 EnsureRequestor();
@@ -50,7 +53,7 @@ class RFQModel : BaseViewModel
         }
     }
 
-    private string _nameHighlighted = "White";
+    private string _nameHighlighted = _defaultBackground;
     public string NameHighlighted { get => _nameHighlighted; private set => _nameHighlighted = value; }
     public string? Name
     {
@@ -59,10 +62,10 @@ class RFQModel : BaseViewModel
         {
             if (_rfq.Requestor?.Name != value)
             {
-                UpdateProperty(ref _nameHighlighted, "Yellow", nameof(NameHighlighted));
+                UpdateProperty(ref _nameHighlighted, _defaultBackgroundHighlight, nameof(NameHighlighted));
                 Task.Delay(TimeSpan.FromSeconds(3)).ContinueWith(_ =>
                 {
-                    UpdateProperty(ref _nameHighlighted, "White", nameof(NameHighlighted));
+                    UpdateProperty(ref _nameHighlighted, _defaultBackground, nameof(NameHighlighted));
                 });
 
                 EnsureRequestor();
@@ -72,7 +75,7 @@ class RFQModel : BaseViewModel
         }
     }
 
-    private string _directionHighlighted = "White";
+    private string _directionHighlighted = _defaultBackground;
     public string DirectionHighlighted { get => _directionHighlighted; private set => _directionHighlighted = value; }
     public string? Direction
     {
@@ -87,10 +90,10 @@ class RFQModel : BaseViewModel
             Enum.TryParse(value, out Direction enumVal);
             if (_rfq.Direction != enumVal)
             {
-                UpdateProperty(ref _directionHighlighted, "Yellow", nameof(DirectionHighlighted));
+                UpdateProperty(ref _directionHighlighted, _defaultBackgroundHighlight, nameof(DirectionHighlighted));
                 Task.Delay(TimeSpan.FromSeconds(3)).ContinueWith(_ =>
                 {
-                    UpdateProperty(ref _directionHighlighted, "White", nameof(DirectionHighlighted));
+                    UpdateProperty(ref _directionHighlighted, _defaultBackground, nameof(DirectionHighlighted));
                 });
 
                 _rfq.Direction = enumVal;
@@ -99,7 +102,7 @@ class RFQModel : BaseViewModel
         }
     }
 
-    private string _rollConventionHighlighted = "White";
+    private string _rollConventionHighlighted = _defaultBackground;
     public string RollConventionHighlighted { get => _rollConventionHighlighted; private set => _rollConventionHighlighted = value; }
     public string? RollConvention
     {
@@ -114,10 +117,10 @@ class RFQModel : BaseViewModel
             Enum.TryParse(value, out RollConvention enumVal);
             if (_rfq.RollConvention != enumVal)
             {
-                UpdateProperty(ref _rollConventionHighlighted, "Yellow", nameof(RollConventionHighlighted));
+                UpdateProperty(ref _rollConventionHighlighted, _defaultBackgroundHighlight, nameof(RollConventionHighlighted));
                 Task.Delay(TimeSpan.FromSeconds(3)).ContinueWith(_ =>
                 {
-                    UpdateProperty(ref _rollConventionHighlighted, "White", nameof(RollConventionHighlighted));
+                    UpdateProperty(ref _rollConventionHighlighted, _defaultBackground, nameof(RollConventionHighlighted));
                 });
 
                 _rfq.RollConvention = enumVal;
@@ -126,7 +129,7 @@ class RFQModel : BaseViewModel
         }
     }
 
-    private string _productHighlighted = "White";
+    private string _productHighlighted = _defaultBackground;
     public string ProductHighlighted { get => _productHighlighted; private set => _productHighlighted = value; }
     public string? Product
     {
@@ -135,10 +138,10 @@ class RFQModel : BaseViewModel
         {
             if (_rfq.Trade?.Product != value)
             {
-                UpdateProperty(ref _productHighlighted, "Yellow", nameof(ProductHighlighted));
+                UpdateProperty(ref _productHighlighted, _defaultBackgroundHighlight, nameof(ProductHighlighted));
                 Task.Delay(TimeSpan.FromSeconds(3)).ContinueWith(_ =>
                 {
-                    UpdateProperty(ref _productHighlighted, "White", nameof(ProductHighlighted));
+                    UpdateProperty(ref _productHighlighted, _defaultBackground, nameof(ProductHighlighted));
                 });
 
                 EnsureTrade();
@@ -148,7 +151,7 @@ class RFQModel : BaseViewModel
         }
     }
 
-    private string _notesHighlighted = "White";
+    private string _notesHighlighted = _defaultBackground;
     public string NotesHighlighted { get => _notesHighlighted; private set => _notesHighlighted = value; }
     public string? Notes
     {
@@ -157,10 +160,10 @@ class RFQModel : BaseViewModel
         {
             if (_rfq.Notes != value)
             {
-                UpdateProperty(ref _notesHighlighted, "Yellow", nameof(NotesHighlighted));
+                UpdateProperty(ref _notesHighlighted, _defaultBackgroundHighlight, nameof(NotesHighlighted));
                 Task.Delay(TimeSpan.FromSeconds(3)).ContinueWith(_ =>
                 {
-                    UpdateProperty(ref _notesHighlighted, "White", nameof(NotesHighlighted));
+                    UpdateProperty(ref _notesHighlighted, _defaultBackground, nameof(NotesHighlighted));
                 });
 
                 _rfq.Notes = value;
@@ -169,7 +172,7 @@ class RFQModel : BaseViewModel
         }
     }
 
-    private string _startDateHighlighted = "White";
+    private string _startDateHighlighted = _defaultBackground;
     public string StartDateHighlighted { get => _startDateHighlighted; private set => _startDateHighlighted = value; }
     public DateTime? StartDate
     {
@@ -178,10 +181,10 @@ class RFQModel : BaseViewModel
         {
             if (_rfq.StartDate != value)
             {
-                UpdateProperty(ref _startDateHighlighted, "Yellow", nameof(StartDateHighlighted));
+                UpdateProperty(ref _startDateHighlighted, _defaultBackgroundHighlight, nameof(StartDateHighlighted));
                 Task.Delay(TimeSpan.FromSeconds(3)).ContinueWith(_ =>
                 {
-                    UpdateProperty(ref _startDateHighlighted, "White", nameof(StartDateHighlighted));
+                    UpdateProperty(ref _startDateHighlighted, _defaultBackground, nameof(StartDateHighlighted));
                 });
 
                 _rfq.StartDate = value;
@@ -190,7 +193,7 @@ class RFQModel : BaseViewModel
         }
     }
 
-    private string _endDateHighlighted = "White";
+    private string _endDateHighlighted = _defaultBackground;
     public string EndDateHighlighted { get => _endDateHighlighted; private set => _endDateHighlighted = value; }
     public DateTime? EndDate
     {
@@ -199,10 +202,10 @@ class RFQModel : BaseViewModel
         {
             if (_rfq.EndDate != value)
             {
-                UpdateProperty(ref _endDateHighlighted, "Yellow", nameof(EndDateHighlighted));
+                UpdateProperty(ref _endDateHighlighted, _defaultBackgroundHighlight, nameof(EndDateHighlighted));
                 Task.Delay(TimeSpan.FromSeconds(3)).ContinueWith(_ =>
                 {
-                    UpdateProperty(ref _endDateHighlighted, "White", nameof(EndDateHighlighted));
+                    UpdateProperty(ref _endDateHighlighted, _defaultBackground, nameof(EndDateHighlighted));
                 });
 
                 _rfq.EndDate = value;
@@ -211,7 +214,7 @@ class RFQModel : BaseViewModel
         }
     }
 
-    private string _notionalHighlighted = "White";
+    private string _notionalHighlighted = _defaultBackground;
     public string NotionalHighlighted { get => _notionalHighlighted; private set => _notionalHighlighted = value; }
     public int? Notional
     {
@@ -220,10 +223,10 @@ class RFQModel : BaseViewModel
         {
             if (_rfq.Notional != value)
             {
-                UpdateProperty(ref _notionalHighlighted, "Yellow", nameof(NotionalHighlighted));
+                UpdateProperty(ref _notionalHighlighted, _defaultBackgroundHighlight, nameof(NotionalHighlighted));
                 Task.Delay(TimeSpan.FromSeconds(3)).ContinueWith(_ =>
                 {
-                    UpdateProperty(ref _notionalHighlighted, "White", nameof(NotionalHighlighted));
+                    UpdateProperty(ref _notionalHighlighted, _defaultBackground, nameof(NotionalHighlighted));
                 });
 
                 _rfq.Notional = value;
