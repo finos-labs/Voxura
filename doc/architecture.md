@@ -59,8 +59,6 @@ The individual components of the pipeline are swappable (except for the `NLP Pro
 ### Speech Input
 The speech input component is responsible for capturing the raw speech waveform (e.g .wav) from the user. This can be done using a variety of technologies, such as a microphone, a web browser's WebRTC API, or a pre-recorded audio file. 
 
-_Could we specify the human language accepted as a valid input?_
-
 ### Speech Recognition
 The speech recognition component is responsible for converting the raw speech waveform into text. This can be done using a variety of speech recognition engines, such as the ones built into web browsers, operating systems, cloud / remote services or local AI models, such as Whisper.
 

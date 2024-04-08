@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Voxura.WpfDemo": {
+      "commandName": "Project",
+      "hotReloadEnabled": true
+    }
+  }
+}

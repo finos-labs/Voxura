@@ -4,9 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Voxura.WpfDemo"
+        xmlns:views="clr-namespace:Voxura.WpfDemo.Views"
+        xmlns:vm ="clr-namespace:Voxura.WpfDemo.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+        d:DataContext = "{d:DesignInstance vm:MainViewModel, IsDesignTimeCreatable=True}"
+        Title="MainWindow" Height="600" Width="800">
+    <StackPanel>
+        <views:RFQForm DataContext="{Binding RFQForm}" />
+        <TextBox Name="UserText" Text="{Binding UserText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="20"/>
+    </StackPanel>
 </Window>
