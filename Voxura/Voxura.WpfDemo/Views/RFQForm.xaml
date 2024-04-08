@@ -12,6 +12,8 @@
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance viewModels:RFQFormViewModel, IsDesignTimeCreatable=True}"
 >
+
+    
     <Grid Name="FormGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -30,6 +32,16 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
+        <Grid.Resources>
+            <Style TargetType="TextBlock">
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+      
+
+        </Grid.Resources>
+
         <userControls:ChangeIndicator PropertyName="Email" Grid.Row="0" Grid.Column="0" />
         <TextBlock Text="Email:" Grid.Row="0" Grid.Column="1" Margin="5"/>
         <TextBox Grid.Row="0" Grid.Column="2" Margin="5" Text="{Binding Email, Mode=OneWay}" />
@@ -40,7 +52,7 @@
 
         <userControls:ChangeIndicator PropertyName="Direction" Grid.Row="2" Grid.Column="0" />
         <TextBlock Text="Direction:" Grid.Row="2" Grid.Column="1" Margin="5"/>
-        <ComboBox Grid.Row="2" Grid.Column="2" Margin="5" SelectedValue="{Binding Direction, FallbackValue=' ', Mode=OneWay}" ItemsSource="{Binding AllDirections, Mode=OneTime}">
+        <ComboBox Grid.Row="2" Grid.Column="2" Margin="5" SelectedValue="{Binding Direction, FallbackValue=' ', Mode=OneWay}" ItemsSource="{Binding AllDirections, Mode=OneTime}" HorizontalContentAlignment="Left" HorizontalAlignment="Left">
         </ComboBox>
 
         <userControls:ChangeIndicator PropertyName="Notional" Grid.Row="3" Grid.Column="0" />
@@ -57,7 +69,7 @@
 
         <userControls:ChangeIndicator PropertyName="RollConvention" Grid.Row="6" Grid.Column="0" />
         <TextBlock Text="Roll Convention:" Grid.Row="6" Grid.Column="1" Margin="5"/>
-        <ComboBox Grid.Row="6" Grid.Column="2" Margin="5" SelectedValue="{Binding RollConvention, FallbackValue='  '}" ItemsSource="{Binding AllRollConventions, Mode=OneTime}">
+        <ComboBox Grid.Row="6" Grid.Column="2" Margin="5" SelectedValue="{Binding RollConvention, FallbackValue='  ', Mode=OneWay}" ItemsSource="{Binding AllRollConventions, Mode=OneTime}" HorizontalContentAlignment="Left" HorizontalAlignment="Left">
         </ComboBox>
 
         <userControls:ChangeIndicator PropertyName="Product" Grid.Row="7" Grid.Column="0" />

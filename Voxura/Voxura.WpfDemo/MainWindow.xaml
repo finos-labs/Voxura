@@ -1,4 +1,4 @@
-﻿<Window x:Class="Voxura.WpfDemo.MainWindow"
+﻿<ui:FluentWindow x:Class="Voxura.WpfDemo.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,14 +6,24 @@
         xmlns:local="clr-namespace:Voxura.WpfDemo"
         xmlns:views="clr-namespace:Voxura.WpfDemo.Views"
         xmlns:vm ="clr-namespace:Voxura.WpfDemo.ViewModels"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         mc:Ignorable="d"
         d:DataContext = "{d:DesignInstance vm:MainViewModel, IsDesignTimeCreatable=True}"
-        Title="MainWindow" Height="600" Width="800">
+        Title="MainWindow" Height="800" Width="600">
     <StackPanel>
-        <views:RFQForm DataContext="{Binding RFQForm}" />
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="20">
-            <TextBox Name="UserText" Text="{Binding UserText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="500"/>
-            <Button Content="&#xE1D6;" FontFamily="Segoe MDL2 Assets" Margin="10,0,0,0" Padding="10"  Click="DictateButton_Click"/>
+        <ui:TitleBar Title="Voxura WPF Demo" Background="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}">
+            <!-- Temporary fix from https://github.com/lepoco/wpfui/issues/1009 -->
+            <ui:TitleBar.Resources>
+                <Style TargetType="ui:TitleBarButton" BasedOn="{StaticResource {x:Type ui:TitleBarButton}}">
+                    <Setter Property="MouseOverButtonsForeground" Value="Black" />
+                </Style>
+            </ui:TitleBar.Resources>
+        </ui:TitleBar>
+        <views:RFQForm DataContext="{Binding RFQForm}" Margin="0, 20, 20, 0" />
+        <TextBlock VerticalAlignment="Center" Margin="20, 40, 10, 0">Type or dictate here:</TextBlock>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="20, 10, 20, 20">
+            <TextBox Name="UserText" PreviewTextInput="UserText_OnPreviewTextInput" TextChanged="UserText_OnTextChanged" Text="{Binding UserText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Height="160" Width="510"/>
+            <Button Content="&#xE1D6;" FontFamily="Segoe MDL2 Assets" Margin="10,0,0,0" Padding="10"  Click="DictateButton_Click" VerticalAlignment="Stretch"/>
         </StackPanel>
     </StackPanel>
-</Window>
+</ui:FluentWindow>

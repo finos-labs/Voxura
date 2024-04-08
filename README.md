@@ -9,6 +9,9 @@ Here is the original (Speech-to-Form) example of what Voxura can do:
 
 (You can see the code for this in the 'First POC' folder in this repo.)
 
+Here is a screenshot of the WPF demo:
+
+
 ## Roadmap
 
 1. (75% done) Voxura.Core - the core functionality of Voxura, for embeddig scenarios:
