@@ -11,6 +11,9 @@
         Title="MainWindow" Height="600" Width="800">
     <StackPanel>
         <views:RFQForm DataContext="{Binding RFQForm}" />
-        <TextBox Name="UserText" Text="{Binding UserText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="20"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="20">
+            <TextBox Name="UserText" Text="{Binding UserText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="500"/>
+            <Button Content="&#xE1D6;" FontFamily="Segoe MDL2 Assets" Margin="10,0,0,0" Padding="10"  Click="DictateButton_Click"/>
+        </StackPanel>
     </StackPanel>
 </Window>
