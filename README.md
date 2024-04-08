@@ -10,7 +10,7 @@ Here is the original (Speech-to-Form) example of what Voxura can do:
 (You can see the code for this in the 'First POC' folder in this repo.)
 
 Here is a screenshot of the WPF demo:
-
+![image](https://github.com/finos-labs/Voxura/assets/1344888/37ae7eb9-26bc-42a6-8273-4af255701727)
 
 ## Roadmap
 
