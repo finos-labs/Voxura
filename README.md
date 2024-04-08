@@ -21,7 +21,7 @@ Here is a screenshot of the WPF demo:
 	c. extracting data from speech
 	d. returning JSON data
 2. (75% done) Voxura.MauiDemo - a demo app for Voxura.Core, using .NET MAUI. Demos for Android, Windows, Linux
-3. (75% done) Voxura.WpfDemo - a demo app for Voxura.Core, using WPF (Windows only)
+3. (90% done) Voxura.WpfDemo - a demo app for Voxura.Core, using WPF (Windows only)
 4. (0% done) Voxura.WebAPI - a web api wrapper around Voxura.Core, with the additional features:
     a. configuration of LLMs and prompts
 	b. access control
