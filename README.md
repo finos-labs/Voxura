@@ -4,29 +4,37 @@
 
 Voxura focuses on gaining real-time insights and extracting data from speech.
 
+Here is the original (Speech-to-Form) example of what Voxura can do:
+[![image](https://github.com/finos-labs/Voxura/assets/1344888/866caf48-55ca-4a04-b47f-842bf4ba57be)](https://www.youtube.com/watch?v=CiGu_okP-c8)
+
+(You can see the code for this in the 'First POC' folder in this repo.)
+
+## Roadmap
+
+1. (75% done) Voxura.Core - the core functionality of Voxura, for embeddig scenarios:
+	a. configuration of LLMs and prompts
+	b. processing speech input
+	c. extracting data from speech
+	d. returning JSON data
+2. (75% done) Voxura.MauiDemo - a demo app for Voxura.Core, using .NET MAUI. Demos for Android, Windows, Linux
+3. (75% done) Voxura.WpfDemo - a demo app for Voxura.Core, using WPF (Windows only)
+4. (0% done) Voxura.WebAPI - a web api wrapper around Voxura.Core, with the additional features:
+    a. configuration of LLMs and prompts
+	b. access control
+	c. streaming speech or text input
+5. (0% done) Voxura.WebDemo - a web demo using Voxura.WebAPI
+6. (0% done) Voxura.BlazorDemo - a Blazor demo using Voxura.WebAPI
+
+
 ## Installation
 
 - No releases yet, just clone the repo
-
-## Usage example
-
-Original Speech-To-Form demo video:
-[![image](https://github.com/finos-labs/Voxura/assets/1344888/866caf48-55ca-4a04-b47f-842bf4ba57be)](https://www.youtube.com/watch?v=CiGu_okP-c8)
 
 ## Development setup
 
 - Clone the repo
 - Enjoy
 
-## Roadmap
-
-1. Identify use cases, including "key" use cases 
-2. Identify key building blocks (such as: speech recognition engines, data extraction strategies, UX patterns)
-3. Research and validate different approach for the key building blocks
-4. Select one or more platforms and develop architecture to flexibly connect and configure the building blocks
-5. Implement the architecture and the building blocks on the selected platforms
-6. Implement the key use cases using the above
-7. Evaluation, refinement
 
 ## Using DCO to sign your commits
 
