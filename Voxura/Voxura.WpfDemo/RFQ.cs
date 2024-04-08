@@ -1,10 +1,12 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Voxura.WpfDemo;
 
+/// <summary>
+/// Represents an email based ID
+/// </summary>
 public class EmailId
 {
     [EmailAddress]
@@ -12,6 +14,9 @@ public class EmailId
     public string? Email { get; set; }
 }
 
+/// <summary>
+/// Represents a contact
+/// </summary>
 public class Contact
 {
     [JsonPropertyName("Id")]
@@ -21,6 +26,9 @@ public class Contact
     public string? Name { get; set; } 
 }
 
+/// <summary>
+/// Represents a request for quote (RFQ) object
+/// </summary>
 public class RFQ
 {
     [JsonPropertyName("Requestor")]
@@ -52,18 +60,27 @@ public class RFQ
     public string? Notes { get; set; }
 }
 
+/// <summary>
+/// Enum for the direction of the trade (buy or sell)
+/// </summary>
 public enum Direction
 {
     Buy,
     Sell
 }
 
+/// <summary>
+/// Represents a trade object
+/// </summary>
 public class Trade
 {
     [JsonPropertyName("Product")]
     public string? Product { get; set; }
 }
 
+/// <summary>
+/// Enum for the possible roll convention values
+/// </summary>
 public enum RollConvention
 {
     Following,
@@ -71,11 +88,14 @@ public enum RollConvention
     Preceding
 }
 
-// Custom converter for date serialization/deserialization, unchanged from previous example
+/// <summary>
+/// Json converter for date objects
+/// </summary>
 public class JsonDateConverter : JsonConverter<DateTime?>
 {
     private const string DateFormat = "yyyy-MM-dd"; // Specify the strict format here
 
+    /// <inheritdoc cref="JsonConverter{T}.Read"/>
     public override DateTime? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var dateString = reader.GetString();
@@ -87,6 +107,7 @@ public class JsonDateConverter : JsonConverter<DateTime?>
         throw new JsonException("Date format is not valid.");
     }
 
+    /// <inheritdoc cref="JsonConverter{T}.Write"/>
     public override void Write(Utf8JsonWriter writer, DateTime? value, JsonSerializerOptions options)
     {
         writer.WriteStringValue(value?.ToString(DateFormat));

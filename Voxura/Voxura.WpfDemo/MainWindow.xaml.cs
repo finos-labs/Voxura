@@ -13,9 +13,7 @@ namespace Voxura.WpfDemo;
 /// Interaction logic for MainWindow.xaml
 /// </summary>
 public partial class MainWindow : FluentWindow
-
 {
-
     private MainViewModel _viewModel = new MainViewModel();
 
     public MainWindow()
@@ -35,11 +33,6 @@ public partial class MainWindow : FluentWindow
     private void DictateButton_Click(object sender, RoutedEventArgs e)
     {
         StartDictation();
-    }
-
-    private void UserText_OnPreviewTextInput(object sender, TextCompositionEventArgs e)
-    {
-        Debug.WriteLine($"UserText_OnPreviewTextInput: {e.Text}");
     }
 
     private void UserText_OnTextChanged(object sender, TextChangedEventArgs e)

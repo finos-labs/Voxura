@@ -1,19 +1,15 @@
-﻿using System.ComponentModel;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media.Animation;
+﻿using System.Windows.Controls;
 
-namespace Voxura.WpfDemo.Views
+namespace Voxura.WpfDemo.Views;
+
+/// <summary>
+/// Interaction logic for RFQForm.xaml
+/// </summary>
+public partial class RFQForm : UserControl
 {
-    /// <summary>
-    /// Interaction logic for RFQForm.xaml
-    /// </summary>
-    public partial class RFQForm : UserControl
+    public RFQForm()
     {
-        public RFQForm()
-        {
-            InitializeComponent();
-        }
-
+        InitializeComponent();
     }
+
 }

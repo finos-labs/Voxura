@@ -1,22 +1,20 @@
 ﻿using System.Diagnostics;
 using System.Text.Json;
 using CommunityToolkit.Mvvm.ComponentModel;
-using OpenAI;
 using Voxura.Core;
 
-namespace Voxura.WpfDemo.ViewModels
-{
-    public class MainViewModel : ObservableObject
-    {
-        public RFQFormViewModel RFQForm { get; } = new RFQFormViewModel();
-        
-        private NLProcessing _nlProcessing;
+namespace Voxura.WpfDemo.ViewModels;
 
-        /// <summary>
-        /// Prompt to use for extraction <see cref="NLProcessingConfig"/>
-        /// </summary>
-        public string Prompt { get; set; } = 
-@"Below is a raw transcript of a user's verbal instructions to fill a form.
+public class MainViewModel : ObservableObject
+{
+    public RFQFormViewModel RFQForm { get; } = new RFQFormViewModel();
+    private NLProcessing _nlProcessing;
+
+    /// <summary>
+    /// Prompt to use for extraction <see cref="NLProcessingConfig"/>
+    /// </summary>
+    public string Prompt { get; set; } =
+        @"Below is a raw transcript of a user's verbal instructions to fill a form.
 Convert it to a JSON object that conforms to the TypeScript interface below.
 Ignore anything else. Answer only with the required object and nothing else!
 
@@ -42,93 +40,102 @@ interface RFQ {
 
 ";
 
-        public MainViewModel()
+    public MainViewModel()
+    {
+        NLProcessingConfig config = new()
         {
-            NLProcessingConfig config = new();
-            config.ExtractionPrompt = Prompt;
-            config.OpenAIKeyLoadFromEnvironment = true;
-            config.ModelName = "gpt-3.5-turbo";
+            ExtractionPrompt = Prompt,
+            OpenAIKeyLoadFromEnvironment = true,
+            ModelName = "gpt-3.5-turbo"
+        };
+
+        _nlProcessing = new NLProcessing(config);
+    }
+
+    public void Initialize(bool designMode = true)
+    {
+        if (designMode)
+        {
+            FillDesignData();
+        }
+    }
+
+    private string? _userText;
+
+    /// <summary>
+    /// Gets or sets the user text.
+    /// </summary>
+    public string? UserText
+    {
+        get => _userText;
+        set
+        {
+            if (SetProperty(ref _userText, value))
+                ProcessNewUserText();
+        }
+    }
+
+
+    private bool _isProcessing;
+    private bool _pendingChanges;
+
+    private async Task ProcessNewUserText()
+    {
+        if (_isProcessing)
+        {
+            _pendingChanges = true;
+            return;
+        }
+
+        try
+        {
+            _isProcessing = true;
+            var result = await _nlProcessing.ProcessAsync(UserText);
             
-            _nlProcessing = new NLProcessing(config);
-        }
-        
-        public void Initialize(bool designMode = true)
-        {
-            if (designMode)
-            {
-                FillDesignData();
-            }
-        }
-        
-        private string _userText;
+            RFQ? rfq = JsonSerializer.Deserialize<RFQ>(result);
 
-        public string UserText
-        {
-            get => _userText;
-            set
+            if (rfq != null)
             {
-                if (SetProperty(ref _userText, value))
-                    ProcessNewUserText();
-            }
-        }
-
-
-        private bool _isProcessing;
-        private bool _pendingChanges;
-        
-        private async Task ProcessNewUserText()
-        {
-            if (_isProcessing)
-            {
-                _pendingChanges = true;
-                return;
+                RFQForm.SetFromRFQ(rfq);
             }
 
-            try
+        }
+        finally
+        {
+            _isProcessing = false;
+
+            if (_pendingChanges)
             {
-                _isProcessing = true;
+                _pendingChanges = false;
+                await ProcessNewUserText();
+            }
+        }
+    }
 
-                var result = await _nlProcessing.ProcessAsync(UserText);
-
-                Debug.WriteLine(result);
-
-                RFQ? rfq = JsonSerializer.Deserialize<RFQ>(result);
-
-                if (rfq != null)
+    private void FillDesignData()
+    {
+        var rfq = new RFQ
+        {
+            Requestor = new Contact
+            {
+                Name = "John Doe",
+                Id = new EmailId
                 {
-                    RFQForm.SetFromRFQ(rfq);
+                    Email = "john.doe@abc.com"
                 }
-
-            }
-            finally
+            },
+            Direction = Direction.Sell,
+            StartDate = new DateTime(2025, 01, 02),
+            EndDate = new DateTime(2025, 07, 02),
+            Notional = 30000,
+            Notes = "Here are some notes for you",
+            RollConvention = RollConvention.Preceding,
+            Trade = new Trade
             {
-                _isProcessing = false;
-
-                if (_pendingChanges)
-                {
-                    _pendingChanges = false;
-                    await ProcessNewUserText();
-                }
+                Product = "USD"
             }
-        }
+        };
 
-        private void FillDesignData()
-        {
-            var rfq = new RFQ();
-            rfq.Requestor = new Contact();
-            rfq.Requestor.Name = "John Doe";
-            rfq.Requestor.Id = new EmailId();
-            rfq.Requestor.Id.Email = "john.doe@abc.com";
-            rfq.Direction = Direction.Sell;
-            rfq.StartDate = new DateTime(2025, 01, 02);
-            rfq.EndDate = new DateTime(2025, 07, 02);
-            rfq.Notional = 30000;
-            rfq.Notes = "Here are some notes for you";
-            rfq.RollConvention = RollConvention.Preceding;
-            rfq.Trade = new Trade();
-            rfq.Trade.Product = "USD";
-
-            RFQForm.SetFromRFQ(rfq);
-        }
+        RFQForm.SetFromRFQ(rfq);
     }
 }

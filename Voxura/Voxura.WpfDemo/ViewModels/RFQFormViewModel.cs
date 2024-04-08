@@ -85,11 +85,19 @@ public class RFQFormViewModel : ObservableObject
     }
 
 
+    /// <summary>
+    /// Gets all possible directions for the trade.
+    /// </summary>
     public List<Direction> AllDirections { get; } = Enum.GetValues<Direction>().ToList();
 
+    /// <summary>
+    /// Gets all possible roll conventions for the trade.
+    /// </summary>
     public List<RollConvention> AllRollConventions { get; } = Enum.GetValues<RollConvention>().ToList();
 
-
+    /// <summary>
+    /// Sets the view model properties from the given RFQ object.
+    /// </summary>
     public void SetFromRFQ(RFQ rfq)
     {
         Email = rfq.Requestor?.Id?.Email;

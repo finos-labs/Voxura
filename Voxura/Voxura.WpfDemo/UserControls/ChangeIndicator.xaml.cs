@@ -10,6 +10,9 @@ namespace Voxura.WpfDemo.UserControls
     /// </summary>
     public partial class ChangeIndicator : UserControl
     {
+        /// <summary>
+        /// The property name to react changes to
+        /// </summary>
         public string? PropertyName { get; set; }
         private INotifyPropertyChanged? _dc;
 
