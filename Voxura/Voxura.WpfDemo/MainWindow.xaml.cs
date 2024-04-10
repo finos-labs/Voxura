@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using Voxura.WpfDemo.ViewModels;
 using WindowsInput;
 using Wpf.Ui.Controls;

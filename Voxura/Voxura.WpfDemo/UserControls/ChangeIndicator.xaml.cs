@@ -39,7 +39,6 @@ namespace Voxura.WpfDemo.UserControls
                 _dc = dc;
                 _dc.PropertyChanged += DC_PropertyChanged;
             }
-
         }
 
         private void DC_PropertyChanged(object? sender, PropertyChangedEventArgs e)
