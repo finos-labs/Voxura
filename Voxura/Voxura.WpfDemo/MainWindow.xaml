@@ -9,7 +9,8 @@
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         mc:Ignorable="d"
         d:DataContext = "{d:DesignInstance vm:MainViewModel, IsDesignTimeCreatable=True}"
-        Title="MainWindow" Height="800" Width="600">
+        ExtendsContentIntoTitleBar="True"
+        Title="MainWindow" Height="900" Width="600">
     <StackPanel>
         <ui:TitleBar Title="Voxura WPF Demo" Background="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}">
             <!-- Temporary fix from https://github.com/lepoco/wpfui/issues/1009 -->
@@ -19,11 +20,17 @@
                 </Style>
             </ui:TitleBar.Resources>
         </ui:TitleBar>
-        <views:RFQForm DataContext="{Binding RFQForm}" Margin="0, 20, 20, 0" />
-        <TextBlock VerticalAlignment="Center" Margin="20, 40, 10, 0">Type or dictate here:</TextBlock>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="20, 10, 20, 20">
-            <TextBox Name="UserText" TextChanged="UserText_OnTextChanged" Text="{Binding UserText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Height="160" Width="510"/>
-            <Button Content="&#xE1D6;" FontFamily="Segoe MDL2 Assets" Margin="10,0,0,0" Padding="10"  Click="DictateButton_Click" VerticalAlignment="Stretch"/>
-        </StackPanel>
+        <Border Background="#303030" CornerRadius="0, 0, 20, 20">
+            <views:RFQForm DataContext="{Binding RFQForm}" Margin="10, 20, 20, 20" />
+        </Border>
+        <Border>
+            <StackPanel>
+                <TextBlock VerticalAlignment="Center" Margin="20, 20, 10, 0">Type or dictate here:</TextBlock>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="20, 10, 20, 20">
+                    <TextBox Name="UserText" TextChanged="UserText_OnTextChanged" Text="{Binding UserText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Height="160" Width="510"/>
+                    <Button Content="&#xE1D6;" FontFamily="Segoe MDL2 Assets" Margin="10,0,0,0" Padding="10"  Click="DictateButton_Click" VerticalAlignment="Stretch"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
     </StackPanel>
 </ui:FluentWindow>

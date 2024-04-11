@@ -12,9 +12,9 @@
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance viewModels:RFQFormViewModel, IsDesignTimeCreatable=True}">
     
-    <Grid Name="FormGrid">
+    <Grid Name="FormGrid"  ShowGridLines="False">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"  />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -26,7 +26,6 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -34,49 +33,46 @@
             <Style TargetType="TextBlock">
                 <Setter Property="HorizontalAlignment" Value="Right"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="10"/>
             </Style>
-
-      
 
         </Grid.Resources>
 
-        <userControls:ChangeIndicator PropertyName="Email" Grid.Row="0" Grid.Column="0" />
-        <TextBlock Text="Email:" Grid.Row="0" Grid.Column="1" Margin="5"/>
-        <TextBox Grid.Row="0" Grid.Column="2" Margin="5" Text="{Binding Email, Mode=OneWay}" />
+        <userControls:ChangeIndicator PropertyName="Email" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
+        <TextBlock Text="Email:" Grid.Row="0" Grid.Column="0" />
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Email, Mode=OneWay}" Margin="10" />
 
-        <userControls:ChangeIndicator PropertyName="Name" Grid.Row="1" Grid.Column="0" />
-        <TextBlock Text="Name:" Grid.Row="1" Grid.Column="1" Margin="5"/>
-        <TextBox Grid.Row="1" Grid.Column="2" Margin="5" Text="{Binding Name, Mode=OneWay}" />
+        <userControls:ChangeIndicator PropertyName="Name" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
+        <TextBlock Text="Name:" Grid.Row="1" Grid.Column="0" />
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, Mode=OneWay}" Margin="10"/>
 
-        <userControls:ChangeIndicator PropertyName="Direction" Grid.Row="2" Grid.Column="0" />
-        <TextBlock Text="Direction:" Grid.Row="2" Grid.Column="1" Margin="5"/>
-        <ComboBox Grid.Row="2" Grid.Column="2" Margin="5" SelectedValue="{Binding Direction, FallbackValue=' ', Mode=OneWay}" ItemsSource="{Binding AllDirections, Mode=OneTime}" HorizontalContentAlignment="Left" HorizontalAlignment="Left">
-        </ComboBox>
+        <userControls:ChangeIndicator PropertyName="Direction" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" />
+        <TextBlock Text="Direction:" Grid.Row="2" Grid.Column="0" />
+        <ComboBox Grid.Row="2" Grid.Column="1" Height="41" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" SelectedValue="{Binding Direction, Mode=OneWay}" ItemsSource="{Binding AllDirections, Mode=OneTime}" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="10" Padding="0"/>
 
-        <userControls:ChangeIndicator PropertyName="Notional" Grid.Row="3" Grid.Column="0" />
-        <TextBlock Text="Notional" Grid.Row="3" Grid.Column="1" Margin="5"/>
-        <TextBox Grid.Row="3" Grid.Column="2" Margin="5" Text="{Binding Notional, Mode=OneWay}" />
+        <userControls:ChangeIndicator PropertyName="Notional" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" />
+        <TextBlock Text="Notional" Grid.Row="3" Grid.Column="0" />
+        <TextBox Grid.Row="3" Grid.Column="1"  Text="{Binding Notional, Mode=OneWay}" Margin="10" />
 
-        <userControls:ChangeIndicator PropertyName="StartDate" Grid.Row="4" Grid.Column="0" />
-        <TextBlock Text="Start Date:" Grid.Row="4" Grid.Column="1" Margin="5"/>
-        <DatePicker Grid.Row="4" Grid.Column="2" Margin="5" SelectedDate="{Binding StartDate, Mode=OneWay}" />
+        <userControls:ChangeIndicator PropertyName="StartDate" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" />
+        <TextBlock Text="Start Date:" Grid.Row="4" Grid.Column="0" />
+        <DatePicker Grid.Row="4" Grid.Column="1"  SelectedDate="{Binding StartDate, Mode=OneWay}" Margin="10" />
 
-        <userControls:ChangeIndicator PropertyName="EndDate" Grid.Row="5" Grid.Column="0" />
-        <TextBlock Text="End Date:" Grid.Row="5" Grid.Column="1" Margin="5"/>
-        <DatePicker Grid.Row="5" Grid.Column="2" Margin="5" SelectedDate="{Binding EndDate, Mode=OneWay}" />
+        <userControls:ChangeIndicator PropertyName="EndDate" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="10" />
+        <TextBlock Text="End Date:" Grid.Row="5" Grid.Column="0" />
+        <DatePicker Grid.Row="5" Grid.Column="1"  SelectedDate="{Binding EndDate, Mode=OneWay}"  Margin="10"/>
 
-        <userControls:ChangeIndicator PropertyName="RollConvention" Grid.Row="6" Grid.Column="0" />
-        <TextBlock Text="Roll Convention:" Grid.Row="6" Grid.Column="1" Margin="5"/>
-        <ComboBox Grid.Row="6" Grid.Column="2" Margin="5" SelectedValue="{Binding RollConvention, FallbackValue='  ', Mode=OneWay}" ItemsSource="{Binding AllRollConventions, Mode=OneTime}" HorizontalContentAlignment="Left" HorizontalAlignment="Left">
-        </ComboBox>
+        <userControls:ChangeIndicator PropertyName="RollConvention" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" />
+        <TextBlock Text="Roll Convention:" Grid.Row="6" Grid.Column="0" />
+        <ComboBox Grid.Row="6" Grid.Column="1" Height="41" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" SelectedValue="{Binding RollConvention, Mode=OneWay}" ItemsSource="{Binding AllRollConventions, Mode=OneTime}" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="10" Padding="0"/>
 
-        <userControls:ChangeIndicator PropertyName="Product" Grid.Row="7" Grid.Column="0" />
-        <TextBlock Text="Product:" Grid.Row="7" Grid.Column="1" Margin="5"/>
-        <TextBox Grid.Row="7" Grid.Column="2" Margin="5" Text="{Binding Product, Mode=OneWay}" />
+        <userControls:ChangeIndicator PropertyName="Product" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" />
+        <TextBlock Text="Product:" Grid.Row="7" Grid.Column="0" />
+        <TextBox Grid.Row="7" Grid.Column="1"  Text="{Binding Product, Mode=OneWay}" Margin="10" />
 
-        <userControls:ChangeIndicator PropertyName="Notes" Grid.Row="8" Grid.Column="0" />
-        <TextBlock Text="Notes:" Grid.Row="8" Grid.Column="1" Margin="5" VerticalAlignment="Top"/>
-        <TextBox Grid.Row="8" Grid.Column="2" Margin="5" TextWrapping="Wrap" AcceptsReturn="True" Height="100" Text="{Binding Notes}"/>
+        <userControls:ChangeIndicator PropertyName="Notes" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" />
+        <TextBlock Text="Notes:" Grid.Row="8" Grid.Column="0"  VerticalAlignment="Top"/>
+        <TextBox Grid.Row="8" Grid.Column="1"  TextWrapping="Wrap" AcceptsReturn="True" Height="100" Text="{Binding Notes}" Margin="10"/>
     </Grid>
 
 </UserControl>

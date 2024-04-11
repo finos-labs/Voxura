@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:Voxura.WpfDemo.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             HorizontalAlignment="Center" VerticalAlignment="Center"
+             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
              Opacity="0"
              >
-    <Label>&gt;&gt;&gt;</Label>
+    <Border BorderThickness="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsHitTestVisible="False" BorderBrush="Yellow" Margin="2"/>
 </UserControl>
