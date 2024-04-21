@@ -3,186 +3,24 @@
     x:Class="Voxura.MauiDemo.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:viewModel="clr-namespace:Voxura.MauiDemo.ViewModel"
-    x:DataType="viewModel:MainViewModel">
+    xmlns:viewModels="clr-namespace:Voxura.MauiDemo.ViewModels"
+    xmlns:views="clr-namespace:Voxura.MauiDemo.Views"
+    x:DataType="viewModels:MainViewModel">
 
     <ScrollView>
         <StackLayout Padding="30,0" Spacing="25">
-            <Editor
-                x:Name="Transcript"
-                Placeholder="Enter your command here"
-                HeightRequest="100"
-                Text="{ Binding Transcript, Mode=TwoWay }"
-            />
-            <Button
-                x:Name="Listen"
-                Text="{ Binding ListeningButtonText }"
-                Clicked="OnListenClicked"
-                BackgroundColor="Blue"
-                TextColor="White"
-                FontSize="Large"
-                FontAttributes="Bold"
-                CornerRadius="10" />
-            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25">
-                <Label
-                    x:Name="Status"
-                    Text = "{ Binding Status }"
-                    Style="{ StaticResource Interim }"
-                    Padding="0,16,0,0"
-                    SemanticProperties.HeadingLevel="Level1"
-                />
-                <Switch x:Name="DebugEnabled" IsToggled="false" Toggled="OnDebugModeToggled" />
-                <Label
-                    Text = "Debug mode"
-                    Style="{ StaticResource SubHeadline }"
-                    SemanticProperties.HeadingLevel="Level1"
-                />
-            </StackLayout>
-            <Label
-                    x:Name="InterimTranscript"
-                    IsVisible="false"
-                    Text="{ Binding InterimTranscript }"
-                    WidthRequest="200"
-                    LineBreakMode="HeadTruncation"
-                    Style="{ StaticResource Interim }"
-                    SemanticProperties.HeadingLevel="Level1"
-             />
-            <Label
-                x:Name="Debug"
-                IsVisible="false"
-                Text = "{ Binding Debug }"
-                Style="{ StaticResource Interim }"
-                SemanticProperties.HeadingLevel="Level1"
-                FontAttributes="Italic, Bold"
-            />
-
-            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25" BackgroundColor="{ Binding RFQModel.EmailHighlighted }">
-                <Label
-                    Text="Email"
-                    Style="{ StaticResource SubHeadline }"
-                    SemanticProperties.HeadingLevel="Level1"
-                />
-                <Entry
-                    x:Name="Email"
-                    Text="{ Binding RFQModel.Email }"
-                    Placeholder="Enter your email"
-
-                />
-            </StackLayout>
-
-            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25"  BackgroundColor="{ Binding RFQModel.NameHighlighted }">
-                <Label
-                    Text="Name"
-                    Style="{ StaticResource SubHeadline }"
-                    SemanticProperties.HeadingLevel="Level1"
-                />
-                <Entry
-                    x:Name="Name"
-                    Text = "{ Binding RFQModel.Name }"
-                    Placeholder="Enter your name"
-                />
-            </StackLayout>
-
-            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25" BackgroundColor="{ Binding RFQModel.DirectionHighlighted }">
-                <Label
-                    Text="Direction"
-                    Style="{ StaticResource SubHeadline }"
-                    SemanticProperties.HeadingLevel="Level1"
-                />
-                <Picker
-                    x:Name="Direction"
-                    Title="Direction"
-                    SelectedItem="{ Binding RFQModel.Direction, Mode=TwoWay }"
-                >
-                    <Picker.ItemsSource>
-                        <x:Array Type="{ x:Type x:String }">
-                            <x:String>Buy</x:String>
-                            <x:String>Sell</x:String>
-                        </x:Array>
-                    </Picker.ItemsSource>
-                </Picker>
-            </StackLayout>
-
-            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25"  BackgroundColor="{ Binding RFQModel.NotionalHighlighted }">
-                <Label
-                    Text="Trade"
-                    Style="{ StaticResource SubHeadline }"
-                    SemanticProperties.HeadingLevel="Level1"
-                />
-                <Entry
-                    x:Name="Notional"
-                    Text = "{ Binding RFQModel.Notional }"
-                    Keyboard="Numeric"
-                    Placeholder="0"
-                />
-                <Entry
-                    x:Name="Product"
-                    Text = "{ Binding RFQModel.Product }"
-                    Placeholder="Enter your product"
-                />
-            </StackLayout>
-
-            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25" BackgroundColor="{ Binding RFQModel.StartDateHighlighted }">
-                <Label
-                    Text="Start Date"
-                    Style="{ StaticResource SubHeadline }"
-                    SemanticProperties.HeadingLevel="Level1"
-                />
-                <Entry
-                    x:Name="StartDate"
-                    Text = "{ Binding RFQModel.StartDate }"
-                    Placeholder="YYYY/MM/DD"
-                />
-            </StackLayout>
-
-            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25" BackgroundColor="{ Binding RFQModel.EndDateHighlighted }">
-                <Label
-                    Text="End Date"
-                    Style="{ StaticResource SubHeadline }"
-                    SemanticProperties.HeadingLevel="Level1"
-                />
-                <Entry
-                    x:Name="EndDate"
-                    Text = "{ Binding RFQModel.EndDate }"
-                    Placeholder="YYYY/MM/DD"
-                />
-            </StackLayout>
-
-            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25" BackgroundColor="{ Binding RFQModel.RollConventionHighlighted }">
-                <Label
-                    Text="Roll Convention"
-                    Style="{ StaticResource SubHeadline }"
-                    SemanticProperties.HeadingLevel="Level1"
-                />
-                <Picker
-                    x:Name="RollConvention"
-                    SelectedItem="{ Binding RFQModel.RollConvention, Mode=TwoWay }"
-                    Title="Roll Convention"
-                >
-                    <Picker.ItemsSource>
-                        <x:Array Type="{ x:Type x:String }">
-                            <x:String>Following</x:String>
-                            <x:String>Modified Following</x:String>
-                            <x:String>Preceding</x:String>
-                        </x:Array>
-                    </Picker.ItemsSource>
-                </Picker>
-            </StackLayout>
-
-            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25" BackgroundColor="{ Binding RFQModel.NotesHighlighted }">
-                <Label
-                    Text="Notes"
-                    Style="{ StaticResource SubHeadline }"
-                    SemanticProperties.HeadingLevel="Level1"
-                />
-                <Editor
-                    x:Name="Notes"
-                    Placeholder="Any other information not captured by the above fields."
-                    HeightRequest="150"
-                    WidthRequest="200"
-                    Text="{ Binding RFQModel.Notes }"
-                />
-            </StackLayout>
+            <Border>
+                <views:RFQForm />
+            </Border>
+            <Border>
+                <StackLayout>
+                    <Label VerticalOptions="Center" Margin="20, 20, 10, 0">Type or dictate here:</Label>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="20, 10, 20, 20">
+                        <Editor x:Name="UserText" TextChanged="UserText_OnTextChanged" Text="{Binding UserText, Mode=TwoWay}" HeightRequest="160" WidthRequest="250"/>
+                        <Button Text="&#xE1D6;" FontFamily="Segoe MDL2 Assets" Margin="10,0,0,0" Padding="10"  HeightRequest="50" Clicked="DictateButton_Click" VerticalOptions="FillAndExpand"/>
+                    </StackLayout>
+                </StackLayout>
+            </Border>
         </StackLayout>
     </ScrollView>
 </ContentPage>

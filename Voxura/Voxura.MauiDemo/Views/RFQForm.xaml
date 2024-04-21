@@ -1,0 +1,69 @@
+<ContentView x:Class="Voxura.MauiDemo.Views.RFQForm"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Voxura.MauiDemo.Views"
+             xmlns:viewModels="clr-namespace:Voxura.MauiDemo.ViewModels"
+             xmlns:ui="http://schemas.lepo.co/mauiui/2022/xaml"
+             xmlns:mauiControls="clr-namespace:Microsoft.Maui.Controls;assembly=Microsoft.Maui.Controls"
+             xmlns:mauiConverters="clr-namespace:Microsoft.Maui.Controls.Converters;assembly=Microsoft.Maui.Controls"
+             xmlns:mauiMarkupExtensions="clr-namespace:Microsoft.Maui.Controls.Xaml.MarkupExtensions;assembly=Microsoft.Maui.Controls"
+             xmlns:mauiResources="clr-namespace:Microsoft.Maui.Controls.Xaml.Resources;assembly=Microsoft.Maui.Controls"
+             xmlns:mauiStyles="clr-namespace:Microsoft.Maui.Controls.Xaml.Styles;assembly=Microsoft.Maui.Controls"
+             xmlns:mauiTriggers="clr-namespace:Microsoft.Maui.Controls.Xaml.Triggers;assembly=Microsoft.Maui.Controls"
+             x:DataType="viewModels:RFQFormViewModel">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"  />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.Resources>
+            <ResourceDictionary>
+                <Style TargetType="Label">
+                    <Setter Property="HorizontalOptions" Value="End"/>
+                    <Setter Property="VerticalOptions" Value="Center"/>
+                    <Setter Property="Margin" Value="10"/>
+                </Style>
+            </ResourceDictionary>
+        </Grid.Resources>
+
+        <Label Text="Email:" Grid.Row="0" Grid.Column="0" />
+        <Entry Grid.Row="0" Grid.Column="1" Text="{Binding Email}" Margin="10" />
+
+        <Label Text="Name:" Grid.Row="1" Grid.Column="0" />
+        <Entry Grid.Row="1" Grid.Column="1" Text="{Binding Name}" Margin="10"/>
+
+        <Label Text="Direction:" Grid.Row="2" Grid.Column="0" />
+        <Picker Grid.Row="2" Grid.Column="1" SelectedItem="{Binding Direction}" ItemsSource="{Binding AllDirections}" Margin="10"/>
+
+        <Label Text="Notional" Grid.Row="3" Grid.Column="0" />
+        <Entry Grid.Row="3" Grid.Column="1" Text="{Binding Notional}" Margin="10" />
+
+        <Label Text="Start Date:" Grid.Row="4" Grid.Column="0" />
+        <DatePicker Grid.Row="4" Grid.Column="1" Date="{Binding StartDate}" Margin="10" />
+
+        <Label Text="End Date:" Grid.Row="5" Grid.Column="0" />
+        <DatePicker Grid.Row="5" Grid.Column="1" Date="{Binding EndDate}" Margin="10"/>
+
+        <Label Text="Roll Convention:" Grid.Row="6" Grid.Column="0" />
+        <Picker Grid.Row="6" Grid.Column="1" SelectedItem="{Binding RollConvention}" ItemsSource="{Binding AllRollConventions}" Margin="10"/>
+
+        <Label Text="Product:" Grid.Row="7" Grid.Column="0" />
+        <Entry Grid.Row="7" Grid.Column="1" Text="{Binding Product}" Margin="10" />
+
+        <Label Text="Notes:" Grid.Row="8" Grid.Column="0"  VerticalOptions="Start"/>
+        <Editor Grid.Row="8" Grid.Column="1" Text="{Binding Notes}" Margin="10"/>
+    </Grid>
+</ContentView>
