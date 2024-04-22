@@ -8,7 +8,7 @@
     Title="Voxura.MauiDemo">
 
     <ShellContent
-        Title="Home"
+        Title="Voxura - Maui Demo"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 

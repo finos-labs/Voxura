@@ -85,7 +85,6 @@ public class RFQFormViewModel : ObservableObject
         set => SetProperty(ref _notes, value);
     }
 
-
     /// <summary>
     /// Gets all possible directions for the trade.
     /// </summary>

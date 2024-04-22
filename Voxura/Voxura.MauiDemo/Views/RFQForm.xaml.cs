@@ -1,12 +1,15 @@
-namespace Voxura.MauiDemo.Views;
+using Voxura.MauiDemo.ViewModels;
 
-/// <summary>
-/// Interaction logic for RFQForm.xaml
-/// </summary>
-public partial class RFQForm : ContentView
+namespace Voxura.MauiDemo.Views
 {
-    public RFQForm()
+    /// <summary>
+    /// Interaction logic for RFQForm.xaml
+    /// </summary>
+    public partial class RFQForm : ContentView
     {
-        InitializeComponent();
+        public RFQForm()
+        {
+            InitializeComponent();
+        }
     }
 }

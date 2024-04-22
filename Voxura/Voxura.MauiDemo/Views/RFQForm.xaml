@@ -9,8 +9,7 @@
              xmlns:mauiMarkupExtensions="clr-namespace:Microsoft.Maui.Controls.Xaml.MarkupExtensions;assembly=Microsoft.Maui.Controls"
              xmlns:mauiResources="clr-namespace:Microsoft.Maui.Controls.Xaml.Resources;assembly=Microsoft.Maui.Controls"
              xmlns:mauiStyles="clr-namespace:Microsoft.Maui.Controls.Xaml.Styles;assembly=Microsoft.Maui.Controls"
-             xmlns:mauiTriggers="clr-namespace:Microsoft.Maui.Controls.Xaml.Triggers;assembly=Microsoft.Maui.Controls"
-             x:DataType="viewModels:RFQFormViewModel">
+             xmlns:mauiTriggers="clr-namespace:Microsoft.Maui.Controls.Xaml.Triggers;assembly=Microsoft.Maui.Controls">
 
     <Grid>
         <Grid.RowDefinitions>

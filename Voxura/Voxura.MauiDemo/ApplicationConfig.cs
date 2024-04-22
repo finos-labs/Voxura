@@ -9,7 +9,7 @@ public class ApplicationConfig
     /// <summary>
     /// Model name to use <see cref="NLProcessingConfig"/
     /// </summary>
-    public string? ModelName { get; set; } = "chat-gpt-3.5-turbo";
+    public string? ModelName { get; set; } = "gpt-3.5-turbo";
 
     /// <summary>
     ///  OpenAI API Key can be loaded from the environment <see cref="NLProcessingConfig"/>

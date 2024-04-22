@@ -8,6 +8,7 @@ using Voxura.MauiDemo.Models;
 using Voxura.MauiDemo.ViewModels;
 
 using Voxura.MauiDemo.Platforms.SpeechToText;
+using Voxura.MauiDemo.Views;
 
 namespace Voxura.MauiDemo;
 
@@ -26,6 +27,8 @@ public partial class MainPage : ContentPage
 #endif
         InitializeComponent();
         BindingContext = new MainViewModel(new ApplicationConfig());
+        RFQFormView.BindingContext = ((MainViewModel)BindingContext).RFQForm;
+
     }
 
     private async void StartDictation()
@@ -42,15 +45,8 @@ public partial class MainPage : ContentPage
     {
         if (BindingContext is MainViewModel vm)
         {
-            // vm.Transcript = UserText.Text; // needed in addition to binding to get quicker updates
+            vm.UserText = UserText.Text; // needed in addition to binding to get quicker updates
         }
-    }
-
-
-    private void OnDebugModeToggled(object sender, ToggledEventArgs e)
-    {
-        // Debug.IsVisible = e.Value;
-        // InterimTranscript.IsVisible = e.Value;
     }
 
     private async void OnListenClicked(object sender, EventArgs e)

@@ -10,7 +10,7 @@ namespace Voxura.MauiDemo.ViewModels;
 
 public class MainViewModel : ObservableObject
 {
-    public RFQFormViewModel RFQForm { get; } = new RFQFormViewModel();
+    public RFQFormViewModel RFQForm { get; } = new();
     private NLProcessing _nlProcessing;
 
     /// <summary>
@@ -64,7 +64,7 @@ interface RFQ {
         }
     }
 
-    private string? _userText;
+    private string? _userText = string.Empty;
 
     /// <summary>
     /// Gets or sets the user text.
@@ -95,14 +95,11 @@ interface RFQ {
         {
             _isProcessing = true;
             var result = await _nlProcessing.ProcessAsync(UserText);
-
             RFQ? rfq = JsonSerializer.Deserialize<RFQ>(result);
-
             if (rfq != null)
             {
                 RFQForm.SetFromRFQ(rfq);
             }
-
         }
         finally
         {
