@@ -79,7 +79,6 @@ interface RFQ {
         }
     }
 
-
     private bool _isProcessing = false;
     private bool _pendingChanges;
 
