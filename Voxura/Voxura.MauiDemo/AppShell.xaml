@@ -4,12 +4,12 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Voxura.MauiDemo"
-    Shell.FlyoutBehavior="Disabled"
-    Title="Voxura.MauiDemo">
+    Title="Voxura Maui Demo">
 
-    <ShellContent
-        Title="Voxura - Maui Demo"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-
+    <FlyoutItem Title="Home" x:Name="Home">
+        <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Settings" x:Name="SettingsPage">
+        <ShellContent ContentTemplate="{DataTemplate local:SettingsPage}" />
+    </FlyoutItem>
 </Shell>

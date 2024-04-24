@@ -18,6 +18,8 @@ public static class MauiProgram
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
+        builder.Services.AddSingleton<ApplicationConfig>();
+        builder.Services.AddSingleton<MainPage>(serviceProvider => new MainPage(serviceProvider.GetRequiredService<ApplicationConfig>()));
 
         return builder.Build();
     }

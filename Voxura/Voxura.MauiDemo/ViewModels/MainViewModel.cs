@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Text.Json;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Voxura.Core;
 
@@ -11,6 +13,8 @@ namespace Voxura.MauiDemo.ViewModels;
 public class MainViewModel : ObservableObject
 {
     public RFQFormViewModel RFQForm { get; } = new();
+
+    private ApplicationConfig _applicationConfig;
     private NLProcessing _nlProcessing;
 
     /// <summary>
@@ -45,15 +49,8 @@ interface RFQ {
 
     public MainViewModel(ApplicationConfig appConfig)
     {
-        NLProcessingConfig config = new()
-        {
-            ApiKey = appConfig.ApiKey,
-            OpenAIKeyLoadFromEnvironment = appConfig.OpenAIKeyLoadFromEnvironment,
-            ExtractionPrompt = Prompt,
-            ModelName = appConfig.ModelName,
-        };
-
-        _nlProcessing = new NLProcessing(config);
+        _applicationConfig = appConfig;
+        Initialize(false);
     }
 
     public void Initialize(bool designMode = true)
@@ -84,6 +81,13 @@ interface RFQ {
 
     private async Task ProcessNewUserText()
     {
+        if (!EnsureNlProcessing())
+        {
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            await Toast.Make("API key is not set, please update in Settings!", ToastDuration.Long, 16).Show(cancellationTokenSource.Token);
+            return;
+        }
+
         if (_isProcessing)
         {
             _pendingChanges = true;
@@ -137,5 +141,28 @@ interface RFQ {
         };
 
         RFQForm.SetFromRFQ(rfq);
+    }
+
+    private bool EnsureNlProcessing()
+    {
+        if (_nlProcessing == null)
+        {
+            if (!_applicationConfig.Verify())
+            {
+                return false;
+            }
+
+            NLProcessingConfig config = new()
+            {
+                ApiKey = _applicationConfig.ApiKey,
+                OpenAIKeyLoadFromEnvironment = _applicationConfig.OpenAIKeyLoadFromEnvironment,
+                ExtractionPrompt = Prompt,
+                ModelName = _applicationConfig.ModelName,
+            };
+
+            _nlProcessing = new NLProcessing(config);
+        }
+
+        return true;
     }
 }

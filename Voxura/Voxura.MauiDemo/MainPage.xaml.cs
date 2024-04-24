@@ -15,10 +15,11 @@ namespace Voxura.MauiDemo;
 public partial class MainPage : ContentPage
 {
     private CancellationTokenSource _cancellationTokenSource = new();
+
     private ISpeechToText _speechToText;
     private string _previousUserText = "";
 
-    public MainPage()
+    public MainPage(ApplicationConfig config)
     {
 #if ANDROID
         _speechToText = new Voxura.MauiDemo.Platforms.SpeechToText.SpeechToTextImplementation();
@@ -26,9 +27,9 @@ public partial class MainPage : ContentPage
         _speechToText = SpeechToText.Default;
 #endif
         InitializeComponent();
-        BindingContext = new MainViewModel(new ApplicationConfig());
-        RFQFormView.BindingContext = ((MainViewModel)BindingContext).RFQForm;
 
+        BindingContext = new MainViewModel(config);
+        RFQFormView.BindingContext = ((MainViewModel)BindingContext).RFQForm;
     }
 
     private async void StartDictation()
