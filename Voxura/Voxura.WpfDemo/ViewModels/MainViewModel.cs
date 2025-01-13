@@ -1,141 +1,170 @@
-﻿using System.Diagnostics;
 using System.Text.Json;
-using CommunityToolkit.Mvvm.ComponentModel;
 using Voxura.Core;
+using Voxura.MauiDemo.Model;
+using CommunityToolkit.Maui.Media;
+using System.Globalization;
 
-namespace Voxura.WpfDemo.ViewModels;
+namespace Voxura.MauiDemo.ViewModel;
 
-public class MainViewModel : ObservableObject
+class MainViewModel : BaseViewModel
 {
-    public RFQFormViewModel RFQForm { get; } = new RFQFormViewModel();
-    private NLProcessing _nlProcessing;
+    NLProcessing _nlp;
 
-    /// <summary>
-    /// Prompt to use for extraction <see cref="NLProcessingConfig"/>
-    /// </summary>
-    public string Prompt { get; set; } =
-        @"Below is a raw transcript of a user's verbal instructions to fill a form.
-Convert it to a JSON object that conforms to the TypeScript interface below.
-Ignore anything else. Answer only with the required object and nothing else!
+    Task<string>? _currentProcess;
 
-interface Contact {
-    Id?: {
-        Email?: string; // only valid email address or null
-    };
-    Name?: string;
-}
+    private readonly ISpeechToText _speechToText;
 
-interface RFQ {
-    Requestor?: Contact;
-    Direction?: 'Buy' | 'Sell';
-    Notional?: number as Int;
-    StartDate?: date; // be strict with locale format or null
-    EndDate?: date; // be strict with locale format or null
-    RollConvention?: 'Following' | 'ModifiedFollowing' | 'Preceding';
-    Trade?: {
-        Product: string;  // The product or currency the user wants to buy or sell
-    };
-    Notes?: string;  // Any other information not captured by the above fields
-};
+    private RFQModel _rfqModel = new();
 
-";
-
-    public MainViewModel()
+    public RFQModel RFQModel
     {
-        NLProcessingConfig config = new()
+        get => _rfqModel;
+        set => UpdateProperty(ref _rfqModel, value);
+    }
+
+    private string _previousTranscript = "";
+    private string? _transcript;
+    public string? Transcript
+    {
+        get => _transcript;
+        set => UpdateTranscript(value);
+    }
+
+    private string _debug = "";
+    public string Debug
+    {
+        get => _debug;
+        set => UpdateProperty(ref _debug, value, nameof(Debug));
+    }
+
+
+    private string _listeningButtonText = "Listen";
+    public string ListeningButtonText
+    {
+        get => _listeningButtonText;
+        set => UpdateProperty(ref _listeningButtonText, value, nameof(ListeningButtonText));
+    }
+
+    private string _status = "";
+    public string Status
+    {
+        get => _status;
+        set => UpdateProperty(ref _status, value, nameof(Status));
+    }
+
+    private string _interimTranscript = "";
+    public string InterimTranscript
+    {
+        get => _interimTranscript;
+        set => UpdateProperty(ref _interimTranscript, value, nameof(InterimTranscript));
+    }
+
+    public MainViewModel(ApplicationConfig appConfig, ISpeechToText speechToText)
+    {
+        _speechToText = speechToText;
+        var config = new NLProcessingConfig
         {
-            ExtractionPrompt = Prompt,
-            OpenAIKeyLoadFromEnvironment = true,
-            ModelName = "gpt-3.5-turbo"
+            ApiKey = appConfig.ApiKey,
+            OpenAIKeyLoadFromEnvironment = appConfig.OpenAIKeyLoadFromEnvironment,
+            ExtractionPrompt = appConfig.ExtractionPrompt + "\n" + appConfig.ExpectedOutput,
         };
 
-        _nlProcessing = new NLProcessing(config);
+        _nlp = new NLProcessing(config);
     }
 
-    public void Initialize(bool designMode = true)
+    private void UpdateTranscript(string? value)
     {
-        if (designMode)
-        {
-            FillDesignData();
-        }
-    }
-
-    private string? _userText;
-
-    /// <summary>
-    /// Gets or sets the user text.
-    /// </summary>
-    public string? UserText
-    {
-        get => _userText;
-        set
-        {
-            if (SetProperty(ref _userText, value))
-                ProcessNewUserText();
-        }
+        _transcript = value;
+        ProcessTranscriptIfChanged();
     }
 
 
-    private bool _isProcessing;
-    private bool _pendingChanges;
-
-    private async Task ProcessNewUserText()
+    private void ProcessTranscriptIfChanged()
     {
-        if (_isProcessing)
+        bool isProcessing = _currentProcess != null && !_currentProcess.IsCompleted;
+        Status = !isProcessing ? "Completed " : "Processing... ";
+        if (isProcessing)
         {
-            _pendingChanges = true;
             return;
         }
 
-        try
+        string currentText = _transcript ?? string.Empty;
+        if (_interimTranscript?.Trim() == currentText.Trim() || currentText.Length < 10)
         {
-            _isProcessing = true;
-            var result = await _nlProcessing.ProcessAsync(UserText);
-            
-            RFQ? rfq = JsonSerializer.Deserialize<RFQ>(result);
-
-            if (rfq != null)
-            {
-                RFQForm.SetFromRFQ(rfq);
-            }
-
+            return;
         }
-        finally
-        {
-            _isProcessing = false;
 
-            if (_pendingChanges)
+        InterimTranscript = currentText;
+
+        _currentProcess = _nlp.ProcessAsync(currentText);
+        _currentProcess.ContinueWith(task =>
+        {
+            try
             {
-                _pendingChanges = false;
-                await ProcessNewUserText();
+                RFQ? myForm = JsonSerializer.Deserialize<RFQ>(task.Result);
+                if (myForm != null)
+                {
+                    RFQModel.RFQ = myForm;
+                }
+                Debug = currentText + " -> " + task.Result;
             }
+            catch (Exception ex)
+            {
+                Debug = ex.Message + "\n\n" + task.Result;
+            }
+
+            Task.Delay(500).ContinueWith(_ => ProcessTranscriptIfChanged(), TaskScheduler.FromCurrentSynchronizationContext());
+        }, TaskScheduler.FromCurrentSynchronizationContext());
+    }
+
+    public async Task ToggleListening(CancellationToken cancellationToken)
+    {
+        if (_speechToText.CurrentState == SpeechToTextState.Listening)
+        {
+            await StopListening(cancellationToken);
+        }
+        else
+        {
+            await StartListening(cancellationToken);
         }
     }
 
-    private void FillDesignData()
+    private async Task StartListening(CancellationToken cancellationToken, string? buttonText = null)
     {
-        var rfq = new RFQ
+        _previousTranscript = _transcript;
+        var isGranted = await _speechToText.RequestPermissions(cancellationToken);
+        if (!isGranted)
         {
-            Requestor = new Contact
-            {
-                Name = "John Doe",
-                Id = new EmailId
-                {
-                    Email = "john.doe@abc.com"
-                }
-            },
-            Direction = Direction.Sell,
-            StartDate = new DateTime(2025, 01, 02),
-            EndDate = new DateTime(2025, 07, 02),
-            Notional = 30000,
-            Notes = "Here are some notes for you",
-            RollConvention = RollConvention.Preceding,
-            Trade = new Trade
-            {
-                Product = "USD"
-            }
-        };
+            Debug = "Permission not granted";
+            return;
+        }
 
-        RFQForm.SetFromRFQ(rfq);
+        _speechToText.RecognitionResultUpdated += OnRecognitionTextUpdated;
+        _speechToText.RecognitionResultCompleted += OnRecognitionTextCompleted;
+        await _speechToText.StartListenAsync(CultureInfo.CurrentCulture, cancellationToken);
+        ListeningButtonText = buttonText ?? "Stop listening";
+    }
+
+    private async Task StopListening(CancellationToken cancellationToken)
+    {
+        await _speechToText.StopListenAsync(cancellationToken);
+        _speechToText.RecognitionResultUpdated -= OnRecognitionTextUpdated;
+        _speechToText.RecognitionResultCompleted -= OnRecognitionTextCompleted;
+        ListeningButtonText = "Listen";
+    }
+
+    void OnRecognitionTextUpdated(object? sender, SpeechToTextRecognitionResultUpdatedEventArgs args)
+    {
+        UpdateTranscript(_previousTranscript + " " + args.RecognitionResult);
+        OnPropertyChanged(nameof(Transcript));
+    }
+
+    void OnRecognitionTextCompleted(object? sender, SpeechToTextRecognitionResultCompletedEventArgs args)
+    {
+
+        UpdateTranscript(_previousTranscript + " " + args.RecognitionResult);
+        OnPropertyChanged(nameof(Transcript));
+
+        _previousTranscript = _transcript + " ";
     }
 }

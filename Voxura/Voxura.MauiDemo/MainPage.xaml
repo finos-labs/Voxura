@@ -83,6 +83,32 @@
                 />
             </StackLayout>
 
+            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25" BackgroundColor="{ Binding RFQModel.OrganizationPermidHighlighted }">
+                <Label
+                    Text="PERMID"
+                    Style="{ StaticResource SubHeadline }"
+                    SemanticProperties.HeadingLevel="Level1"
+                />
+                <Entry
+                    x:Name="OrganizationPermid"
+                    Text = "{ Binding RFQModel.OrganizationPermid }"
+                    Placeholder="Enter your PERMID"
+                />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25" BackgroundColor="{ Binding RFQModel.OrganizationNameHighlighted }">
+                <Label
+                    Text="Organization Name"
+                    Style="{ StaticResource SubHeadline }"
+                    SemanticProperties.HeadingLevel="Level1"
+                />
+                <Entry
+                    x:Name="OrganizationName"
+                    Text = "{ Binding RFQModel.OrganizationName }"
+                    Placeholder="Enter your organization name"
+                />
+            </StackLayout>
+
             <StackLayout Orientation="Horizontal" Padding="30,0" Spacing="25" BackgroundColor="{ Binding RFQModel.DirectionHighlighted }">
                 <Label
                     Text="Direction"

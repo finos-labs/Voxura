@@ -27,34 +27,49 @@ public class Contact
 }
 
 /// <summary>
+/// Represents an organization
+/// </summary>
+public class Organization
+{
+    [JsonPropertyName("Id")]
+    public EmailId? Id { get; set; }
+
+    [JsonPropertyName("Name")]
+    public string? Name { get; set; }
+}
+
+/// <summary>
 /// Represents a request for quote (RFQ) object
 /// </summary>
 public class RFQ
 {
     [JsonPropertyName("Requestor")]
-    public Contact? Requestor { get; set; } 
+    public Contact? Requestor { get; set; }
+
+    [JsonPropertyName("Organization")]
+    public Organization? Organization { get; set; }
 
     [JsonPropertyName("Direction")]
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public Direction? Direction { get; set; }
 
     [JsonPropertyName("Notional")]
-    public int? Notional { get; set; } 
+    public int? Notional { get; set; }
 
     [JsonPropertyName("StartDate")]
     [JsonConverter(typeof(JsonDateConverter))]
-    public DateTime? StartDate { get; set; } 
+    public DateTime? StartDate { get; set; }
 
     [JsonPropertyName("EndDate")]
     [JsonConverter(typeof(JsonDateConverter))]
-    public DateTime? EndDate { get; set; } 
+    public DateTime? EndDate { get; set; }
 
     [JsonPropertyName("RollConvention")]
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public RollConvention? RollConvention { get; set; } 
+    public RollConvention? RollConvention { get; set; }
 
     [JsonPropertyName("Trade")]
-    public Trade? Trade { get; set; } 
+    public Trade? Trade { get; set; }
 
     [JsonPropertyName("Notes")]
     public string? Notes { get; set; }

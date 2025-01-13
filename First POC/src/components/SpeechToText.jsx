@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
-import OpenAI from 'openai';
+import { SpeechToText } from 'community-toolkit';
 import { SecretService } from '../services/secretService.js';
 import { getId } from '../services/idService.js';
 import { getFunctionDescriptions, prepareChatMessagesForSending } from '../utils/utils.js';

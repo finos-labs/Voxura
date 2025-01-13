@@ -90,4 +90,35 @@ public class NLProcessingConfig
     /// Whether to enable debug mode
     /// </summary>
     public bool EnableDebug { get; set; } = false;
+
+    /// <summary>
+    /// Expected output result, it can be part of ExtractionPrompt
+    /// </summary>
+    public string ExpectedOutput { get; set; } = @"
+                                interface Contact {
+                                    Id?: {
+                                        Email?: string; // only valid email address or null
+                                    };
+                                    Name?: string;
+                                }
+
+                                interface Organization {
+                                    Id?: {
+                                        PERMID?: string;
+                                    };
+                                    Name?: string;
+                                }
+
+                                interface RFQ {
+                                    Requestor?: Contact | Organization;
+                                    Direction?: 'Buy' | 'Sell';
+                                    Notional?: number as Int;
+                                    StartDate?: date; // be strict with locale format or null
+                                    EndDate?: date; // be strict with locale format or null
+                                    RollConvention?: 'Following' | 'Modified Following' | 'Preceding';
+                                    Trade?: {
+                                        Product: string;  // The product or currency the user wants to buy or sell
+                                    };
+                                    Notes?: string;  // Any other information not captured by the above fields
+                                }";
 }

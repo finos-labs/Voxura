@@ -170,18 +170,14 @@ export default function RFQForm({ json }) {
                 </InputContainer>
             </>
 
-            {/* {organizationPermid && (
-                <>
-                    <InputContainer $changed={organizationPermidChanged}>
-                        <Label>PERMID:</Label>
-                        <InputText value={organizationPermid} onChange={() => { }} placeholder="PERMID" />
-                    </InputContainer>
-                    <InputContainer $changed={organizationNameChanged}>
-                        <Label>Name:</Label>
-                        <InputText value={organizationName} onChange={() => { }} placeholder="Name" />
-                    </InputContainer>
-                </>
-            )} */}
+            <InputContainer $changed={organizationPermidChanged}>
+                <Label>PERMID:</Label>
+                <InputText value={organizationPermid} onChange={() => { }} placeholder="PERMID" />
+            </InputContainer>
+            <InputContainer $changed={organizationNameChanged}>
+                <Label>Organization Name:</Label>
+                <InputText value={organizationName} onChange={() => { }} placeholder="Organization Name" />
+            </InputContainer>
 
             <InputContainer $changed={directionChanged}>
                 <Label>Direction:</Label>

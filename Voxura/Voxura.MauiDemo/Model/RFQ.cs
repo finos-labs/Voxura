@@ -1,4 +1,4 @@
-
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -20,40 +20,41 @@ public enum RollConvention
 public class Identification
 {
     public string? Email { get; set; }
-
+    public string? PERMID { get; set; }
 }
 
 public class Contact
 {
     public Identification? Id { get; set; }
-
     public string? Name { get; set; }
 }
 
+public class Organization
+{
+    public Identification? Id { get; set; }
+    public string? Name { get; set; }
+}
 
 public class Trade
 {
     public string? Product { get; set; }
 }
 
-
 public class RFQ
 {
     public Contact? Requestor { get; set; }
-
+    public Organization? Organization { get; set; }
     public int? Notional { get; set; }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public Direction? Direction { get; set; }
 
     public DateTime? StartDate { get; set; }
-
     public DateTime? EndDate { get; set; }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public RollConvention? RollConvention { get; set; }
 
     public Trade? Trade { get; set; }
-
     public string? Notes { get; set; }
 }
